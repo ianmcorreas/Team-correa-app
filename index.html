@@ -957,7 +957,7 @@ function useSupa(db,setDb,onAuth,onOut,toast){
    const tr=await sb.from("trainers").select("user_id").eq("user_id",UID).maybeSingle(),isT=!!tr.data;
    const [st,sd]=await Promise.all([sb.from("students").select("id,email,data,updated_at"),sb.from("studio").select("data").eq("id",1).maybeSingle()]);
    if(st.error)throw st.error;const rows=st.data||[];
-   if(!isT&&!rows.length){await sb.auth.signOut();setMsg("Seu e-mail ainda não foi liberado pela sua treinadora. Fale com ela e tente de novo.");setRs("login");r.booting=false;return}
+   if(!isT&&!rows.length){await sb.auth.signOut();setMsg("Seu e-mail ainda não foi liberado pelo seu treinador. Fale com ele e tente de novo.");setRs("login");r.booting=false;return}
    const res=await resolveSb({rows:rows.map(x=>x.data),studio:sd.data&&sd.data.data}),d0=joinDb(res.rows.map(x=>({data:x})),res.studio);
    r.base={};r.upd={};rows.forEach((x,i)=>{r.base[x.id]=bundleOf(res.rows[i]);r.upd[x.id]=x.updated_at});
    r.studio=ser(studioOf(d0));r.roleT=isT;r.loaded=true;setDb(d0);setRs("ok");onAuth(isT?{role:"t"}:{role:"a",sid:rows[0].id})}
@@ -997,8 +997,8 @@ function RealLogin({sup}){const [m,setM]=useState("in");const [em,setEm]=useStat
  return <div className="min-h-screen flex flex-col items-center justify-center px-6 py-10 relative overflow-hidden">
   <div aria-hidden className="absolute -top-40 left-1/2 -translate-x-1/2 w-[520px] h-[520px] rounded-full opacity-40" style={{background:"radial-gradient(closest-side,#8E0000,transparent)"}}/>
   <div className="relative w-full max-w-sm"><img src={LOGO} alt="Team Corrêa · Consultoria Online" className="w-36 mx-auto"/>
-   <h1 className="text-2xl font-light text-center mt-6">{m==="in"?"Bem-vinda de volta":"Primeiro acesso"}</h1>
-   <p className="text-sm text-[#8a8a93] text-center mt-1.5">{m==="in"?"Entre para ver o seu treino.":"Use o mesmo e-mail que você passou para a sua treinadora e crie uma senha."}</p>
+   <h1 className="text-2xl font-light text-center mt-6">{m==="in"?"Bem-vindo(a) de volta":"Primeiro acesso"}</h1>
+   <p className="text-sm text-[#8a8a93] text-center mt-1.5">{m==="in"?"Entre para ver o seu treino.":"Use o mesmo e-mail que você passou para o seu treinador e crie uma senha."}</p>
    <div className="flex border border-[#303036] rounded-full p-0.5 text-sm mt-7">{[["in","Entrar"],["up","Primeiro acesso"]].map(([k,l])=><button key={k} type="button" onClick={()=>{setM(k);setEr("");setOk("")}} className={"flex-1 py-2.5 rounded-full "+(m===k?"bg-gradient-to-br from-[#B3122A] to-[#8E0000] text-white font-medium":"text-[#8a8a93]")}>{l}</button>)}</div>
    <form className="mt-5 space-y-3" onSubmit={go} noValidate>
     <input type="email" inputMode="email" autoComplete="email" placeholder="Seu e-mail" aria-label="E-mail" value={em} onChange={e=>setEm(e.target.value)} className="w-full h-12 text-[15px]"/>
@@ -1008,7 +1008,7 @@ function RealLogin({sup}){const [m,setM]=useState("in");const [em,setEm]=useStat
     {(er||sup.msg)&&<p role="alert" className="text-[13px] text-[#EF3347]">{er||sup.msg}</p>}
     {ok&&<p className="text-[13px] text-[#86efac]">{ok}</p>}
     <Btn type="submit" disabled={bz} className="w-full h-12 text-[15px]">{bz?"Aguarde…":m==="in"?"Entrar":"Criar meu acesso"}</Btn></form>
-   <p className="text-[11px] text-[#52525b] text-center mt-6 leading-snug">Treinador: entre com o e-mail e a senha da sua conta. Alunas: o acesso só é liberado depois que a sua treinadora cadastrar o seu e-mail.</p></div></div>}
+   <p className="text-[11px] text-[#52525b] text-center mt-6 leading-snug">Treinador: entre com o e-mail e a senha da sua conta. Alunas: o acesso só é liberado depois que o seu treinador cadastrar o seu e-mail.</p></div></div>}
 function RealRecovery({sup}){const [pw,setPw]=useState("");const [er,setEr]=useState("");const [bz,setBz]=useState(false);
  const go=async e=>{e.preventDefault();if(pw.length<6)return setEr("A senha precisa ter pelo menos 6 caracteres.");setBz(true);const r=await sb.auth.updateUser({password:pw});setBz(false);if(r.error)return setEr(r.error.message);sup.recovered()};
  return <div className="min-h-screen flex items-center justify-center px-6"><form onSubmit={go} className="w-full max-w-sm space-y-3"><img src={LOGO} alt="Team Corrêa" className="w-32 mx-auto mb-4"/><h1 className="text-2xl font-light text-center">Crie uma nova senha</h1><input type="password" autoComplete="new-password" placeholder="Nova senha (mín. 6 caracteres)" aria-label="Nova senha" value={pw} onChange={e=>setPw(e.target.value)} className="w-full h-12 text-[15px]"/>{er&&<p className="text-[13px] text-[#EF3347]">{er}</p>}<Btn type="submit" disabled={bz} className="w-full h-12">{bz?"Salvando…":"Salvar senha"}</Btn></form></div>}
@@ -1020,14 +1020,14 @@ function Login({db,onLogin}){
   if(!e||!/^\S+@\S+\.\S+$/.test(e))return setEr("Digite um e-mail válido.");
   if(!mail&&pw.length<4)return setEr("Digite sua senha (mínimo 4 caracteres).");
   if(role==="t"){if(e!==T_EMAIL)return setEr("E-mail não encontrado na área do treinador.");return onLogin({role:"t"})}
-  const s=db.students.find(x=>emailOf(x).toLowerCase()===e);if(!s)return setEr("Não encontramos esse e-mail. Confira com a sua treinadora.");onLogin({role:"a",sid:s.id})};
+  const s=db.students.find(x=>emailOf(x).toLowerCase()===e);if(!s)return setEr("Não encontramos esse e-mail. Confira com o seu treinador.");onLogin({role:"a",sid:s.id})};
  const forgot=()=>{setOk("");if(!em.trim())return setEr("Digite seu e-mail acima para recuperar a senha.");setEr("");setOk("Enviamos um link para redefinir a senha em "+em.trim()+" (demonstração).")};
  return <div className="min-h-screen flex flex-col items-center justify-center px-6 py-10 relative overflow-hidden">
   <div className="splash fixed inset-0 z-[100] bg-black flex items-center justify-center pointer-events-none"><div className="text-center"><img src={LOGO} alt="Team Corrêa" className="w-28 mx-auto opacity-95"/><span className="block h-px w-14 mx-auto mt-7 bg-gradient-to-r from-transparent via-[#B3122A] to-transparent"/></div></div>
   <div aria-hidden className="absolute -top-40 left-1/2 -translate-x-1/2 w-[520px] h-[520px] rounded-full opacity-40" style={{background:"radial-gradient(closest-side,#8E0000,transparent)"}}/>
   <div className="relative w-full max-w-sm">
    <img src={LOGO} alt="Team Corrêa · Consultoria Online" className="w-36 mx-auto"/>
-   <h1 className="text-2xl font-light text-center mt-6">{r==="a"?"Bem-vinda de volta":"Área do treinador"}</h1>
+   <h1 className="text-2xl font-light text-center mt-6">{r==="a"?"Bem-vindo(a) de volta":"Área do treinador"}</h1>
    <p className="text-sm text-[#8a8a93] text-center mt-1.5">{r==="a"?"Entre para ver o seu treino da semana.":"Entre para gerenciar suas alunas."}</p>
    <div className="flex border border-[#303036] rounded-full p-0.5 text-sm mt-7">{[["a","Sou aluna"],["t","Sou treinador"]].map(([k,l])=><button key={k} type="button" onClick={()=>pick(k)} className={"flex-1 py-2.5 rounded-full "+(r===k?"bg-gradient-to-br from-[#B3122A] to-[#8E0000] text-white font-medium":"text-[#8a8a93]")}>{l}</button>)}</div>
    <form className="mt-5 space-y-3" onSubmit={e=>{e.preventDefault();enter(r)}} noValidate>
