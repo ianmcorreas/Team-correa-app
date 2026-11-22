@@ -181,7 +181,7 @@ const META=()=>Object.fromEntries(Array.from({length:50},(_,i)=>i+1).map(i=>[i,{
 const isB=v=>!!v&&v.startsWith("blob:");
 const ytId=v=>{const m=/(?:youtu\.be\/|youtube\.com\/(?:watch\?(?:.*&)?v=|embed\/|shorts\/))([\w-]{11})/.exec(v||"");return m?m[1]:null};
 const vdisp=(v,n)=>isB(v)?"Vídeo enviado: "+(n||"arquivo"):(v||"");
-const VIDS0=()=>["Hip thrust","Agachamento livre","Agachamento sumô","Stiff com halteres","Stiff com barra","Leg press 45°","Cadeira extensora","Mesa flexora","Supino reto","Supino inclinado com halteres","Remada curvada","Remada baixa","Puxada frontal","Elevação lateral","Rosca direta","Tríceps corda","Levantamento terra","Abdução de quadril"].map((n,i)=>({id:"v"+i,nome:n,link:"https://www.youtube.com/results?search_query="+encodeURIComponent(n+" execução")}));
+const VIDS0=()=>["Agachamento livre", "Agachamento sumô", "Agachamento búlgaro", "Agachamento hack", "Agachamento no smith", "Passada", "Afundo", "Leg press 45°", "Leg press horizontal", "Cadeira extensora", "Cadeira flexora", "Mesa flexora", "Stiff com halteres", "Stiff com barra", "Levantamento terra", "Good morning", "Hip thrust", "Hip thrust na máquina", "Elevação pélvica", "Abdução de quadril", "Cadeira abdutora", "Cadeira adutora", "Coice na polia", "Coice na máquina", "Glúteo na polia", "Extensão de quadril", "Panturrilha em pé", "Panturrilha sentada", "Panturrilha no leg press", "Supino reto", "Supino reto com halteres", "Supino inclinado", "Supino inclinado com halteres", "Supino declinado", "Crucifixo reto", "Crucifixo inclinado", "Crossover", "Peck deck", "Flexão de braço", "Puxada frontal", "Puxada neutra", "Puxada supinada", "Barra fixa", "Remada curvada", "Remada baixa", "Remada unilateral", "Remada cavalinho", "Remada na máquina", "Pulldown", "Pullover", "Desenvolvimento com halteres", "Desenvolvimento na máquina", "Desenvolvimento com barra", "Elevação lateral", "Elevação lateral na polia", "Elevação frontal", "Crucifixo inverso", "Face pull", "Encolhimento", "Rosca direta", "Rosca alternada", "Rosca martelo", "Rosca scott", "Rosca na polia", "Rosca concentrada", "Tríceps corda", "Tríceps testa", "Tríceps francês", "Tríceps pulley", "Tríceps banco", "Mergulho", "Abdominal infra", "Abdominal supra", "Abdominal na máquina", "Prancha", "Prancha lateral", "Elevação de pernas", "Abdominal bicicleta", "Extensão lombar", "Mobilidade de quadril", "Remada alta"].map((n,i)=>({id:"v"+i,nome:n,link:"https://www.youtube.com/results?search_query="+encodeURIComponent(n+" execução")}));
 const PLANS={Mensal:{v:350,m:1},Trimestral:{v:820,m:3},Semestral:{v:1640,m:6}};
 const addM=(b,k)=>{const d=dt(b),t=new Date(d.getFullYear(),d.getMonth()+k,1);return iso(new Date(t.getFullYear(),t.getMonth(),Math.min(d.getDate(),new Date(t.getFullYear(),t.getMonth()+1,0).getDate())))};
 const sqD=(s,k)=>{const bd=dt(s.buy),d=bd.getDate(),y=bd.getFullYear(),m=bd.getMonth();if(d>15)return new Date(y,m+1+k,5);if(k===0&&d>5)return bd;return new Date(y,m+k,5)};
@@ -194,7 +194,7 @@ const shares=s=>{const pa=payOf(s),m=pa.n||PLANS[s.plan].m,v=Math.round(pa.v/m);
 const GEN=()=>{const N="Ana Beatriz,Carolina,Daniela,Eduarda,Fernanda,Gabriela,Helena,Isabela,Jéssica,Karen,Larissa,Letícia,Luana,Mariana,Natália,Olívia,Patrícia,Rafaela,Renata,Sabrina,Tatiane,Vanessa,Yasmin,Aline,Bruna,Clara,Débora,Elaine,Flávia,Giovana,Heloísa,Ingrid,Juliana,Kelly,Lívia,Márcia,Nicole,Priscila,Raquel,Simone,Thaís,Viviane,Amanda,Bárbara,Cristina".split(","),S="Almeida,Barros,Cardoso,Dias,Esteves,Freitas,Gomes,Henrique,Ibrahim,Junqueira,Lopes,Machado,Neves,Oliveira,Pereira,Queiroz,Ramos,Santos,Teixeira,Uchoa,Vieira,Xavier,Monteiro,Cunha".split(",");
  const P=["Trimestral","Mensal","Semestral","Trimestral","Mensal","Trimestral"],M0=monOf(TODAY);
  return N.map((n,k)=>{const id=k+6,plan=P[k%6],nm=PW[plan]/4,tot=nm*4,we=(k*7+3)%(tot+2),we2=we>=tot?tot+1+k%4:we,ix=Math.min(tot,we2+1),M=dt(iso(M0),-we2*7),aw=k>=43,buy=aw?iso(dt(iso(TODAY),-(k===43?6:3))):iso(dt(iso(M),-10)),b=fd(dt(buy));
-  return {id,name:n+" "+S[(k*5+2)%S.length],plan,buy,deliv:aw?undefined:iso(M),meso:aw?1:Math.ceil(ix/4),week:aw?1:(ix-1)%4+1,fb:k%5===0?["Treino ótimo, mas senti o joelho no agachamento.","Consegui subir a carga no hip thrust!","Posso trocar o dia do treino?","Ficou pesado esta semana, durmo mal."][k%4]:"",hist:["Plano "+plan+" adquirido · "+b],photos:!aw&&we>=1&&k%3!==0?["Frente","Costas","Perfil"].map((pos,j)=>({id:1000+k*3+j,meso:1,pos,d:b})):[]}})};
+  return {id,name:n+" "+S[(k*5+2)%S.length],plan,buy,deliv:aw?undefined:iso(M),meso:aw?1:Math.ceil(ix/4),week:aw?1:(ix-1)%4+1,fb:k%5===0?["Treino ótimo, mas senti o joelho no agachamento.","Consegui subir a carga no hip thrust!","Posso trocar o dia do treino?","Ficou pesado esta semana, durmo mal."][k%4]:"",lgpd:{v:LGPD_V,ts:iso(M||TODAY),saude:true,fotos:true},hist:["Plano "+plan+" adquirido · "+b],photos:!aw&&we>=1&&k%3!==0?["Frente","Costas","Perfil"].map((pos,j)=>({id:1000+k*3+j,meso:1,pos,d:b})):[]}})};
 const init0=()=>({
  students:[
   {id:1,name:"Amanda",plan:"Trimestral",buy:"2026-09-18",deliv:"2026-09-21",meso:3,week:1,fb:"Consegui subir a carga no hip thrust!",hist:["Mesociclo 2 concluído · 15/11","Mesociclo 1 concluído · 18/10","Plano Trimestral adquirido · 18/09"],ci:[demoCi(1,"18/10","2026-10-18"),demoCi(2,"15/11","2026-11-15")],photos:[{id:1,meso:1,pos:"Frente",d:"18/09"},{id:2,meso:1,pos:"Costas",d:"18/09"},{id:3,meso:1,pos:"Perfil",d:"18/09"},{id:4,meso:2,pos:"Frente",d:"19/10"},{id:5,meso:2,pos:"Costas",d:"19/10"},{id:6,meso:2,pos:"Perfil",d:"19/10"}],pay:{v:820,forma:"Pix",date:"2026-09-18",paid:true}},
@@ -202,14 +202,14 @@ const init0=()=>({
   {id:3,name:"Malu Scher",plan:"Trimestral",buy:"2026-11-08",st0:"2026-11-09",meso:1,week:2,fb:"",renewed:true,cycle:1,hist:["Plano Trimestral renovado · 08/11"],photos:[],pay:{v:705,forma:"Cartão",date:"2026-11-08",paid:true}},
   {id:4,name:"Giovanna",plan:"Trimestral",buy:"2026-11-01",st0:"2026-10-26",meso:1,week:4,fb:"",hist:["Plano Trimestral adquirido · 01/11"],photos:[],pay:{v:768,forma:"Pix",date:"2026-11-01",paid:true}},
   {id:5,name:"Carol Fontella",plan:"Trimestral",buy:"2026-08-17",deliv:"2026-08-24",meso:3,week:4,fb:"",hist:["Mesociclo 3 concluído · 16/11","Mesociclo 2 concluído · 19/10","Mesociclo 1 concluído · 21/09","Plano Trimestral adquirido · 17/08"],photos:[{id:11,meso:1,pos:"Frente",d:"17/08"},{id:12,meso:1,pos:"Costas",d:"17/08"},{id:13,meso:1,pos:"Perfil",d:"17/08"},{id:14,meso:2,pos:"Frente",d:"21/09"},{id:15,meso:2,pos:"Costas",d:"21/09"},{id:16,meso:2,pos:"Perfil",d:"21/09"},{id:17,meso:3,pos:"Frente",d:"19/10"},{id:18,meso:3,pos:"Costas",d:"19/10"},{id:19,meso:3,pos:"Perfil",d:"19/10"}],pay:{v:738,forma:"Pix",date:"2026-08-17",paid:true}}],
- w:{},ciLink:"",
+ w:{},ciLink:"",wpp:"",
  done:{1:{A:true}},
  timer:null,nxi:{},sessions:[],lib:LIB(),arch:[],cardio:CARD(),meta:META(),videos:VIDS0()
 });
 const mkHist=(load,n)=>{const st=load<20?0.5:2.5,f=Math.max(st,Math.round(load*0.8/st)*st);return Array.from({length:n},(_,i)=>i===n-1?load:Math.round((f+(load-f)*i/Math.max(n-1,1))/st)*st)};
 const hz=(t,n)=>Object.fromEntries(Object.entries(t).map(([k,v])=>[k,v.map(e=>({...e,hist:mkHist(e.load,n)}))]));
 const demoFix=s=>{let q=s,n=0;while(!q.inactive&&info(q).days<10&&n++<80)q={...q,buy:iso(dt(q.buy,7)),deliv:q.deliv?iso(dt(q.deliv,7)):q.deliv,st0:q.st0?iso(dt(q.st0,7)):q.st0};return q};
-const init=()=>{const d=init0();d.w=Object.fromEntries(d.students.map(s=>[s.id,hz(tpl(),(s.meso-1)*4+s.week)]));d.sessions=[{id:1,sid:1,day:"A",lab:"Segunda · Quadríceps e glúteo",date:"09/11",t:"19:42",dur:3480,exs:d.w[1].A.map(e=>({name:e.name,ok:true,series:e.series.map(x=>({tipo:x.tipo,reps:x.reps,load:x.load}))}))}];const q0={id:3,plan:"Mensal",buy:"2026-07-20",photos:[{meso:1,pos:"Frente",d:"20/07"},{meso:1,pos:"Perfil",d:"21/08"}],hist:["Plano Mensal adquirido · 20/07"],fb:"Gostei do ritmo, quero aumentar a carga."};
+const init=()=>{const d=init0();d.students=d.students.map(s=>({...s,lgpd:{v:LGPD_V,ts:iso(dt(s.buy)),saude:true,fotos:true}}));d.w=Object.fromEntries(d.students.map(s=>[s.id,hz(tpl(),(s.meso-1)*4+s.week)]));d.sessions=[{id:1,sid:1,day:"A",lab:"Segunda · Quadríceps e glúteo",date:"09/11",t:"19:42",dur:3480,exs:d.w[1].A.map(e=>({name:e.name,ok:true,series:e.series.map(x=>({tipo:x.tipo,reps:x.reps,load:x.load}))}))}];const q0={id:3,plan:"Mensal",buy:"2026-07-20",photos:[{meso:1,pos:"Frente",d:"20/07"},{meso:1,pos:"Perfil",d:"21/08"}],hist:["Plano Mensal adquirido · 20/07"],fb:"Gostei do ritmo, quero aumentar a carga."};
  d.arch=[snapP({...q0,...info(q0)},hz(tpl(),4),[{date:"31/07",day:"C",dur:3120},{date:"03/08",day:"A",dur:2940},{date:"05/08",day:"B",dur:3300},{date:"07/08",day:"C",dur:3060},{date:"10/08",day:"A",dur:2880}],META()[3])];return d};
 const Weeks=({c,nm,dls=[]})=><div className="flex gap-2">{Array.from({length:nm},(_,m)=>m).map(m=>{const d=dls.find(x=>x.after===m+1);return <div key={m} className="flex-1 flex gap-1">{[0,1,2,3].map(w=>{const i=m*4+w+1,dl=d&&w<d.n;return <i key={w} title={dl?"Deload":undefined} className="h-1 flex-1 rounded-full" style={{background:i<c?"#71717A":i===c?(dl?"#38BDF8":WINE):"#0C0C0F",boxShadow:dl?"inset 0 0 0 1px #38BDF866":"none"}}/>})}</div>})}</div>;
 
@@ -275,12 +275,27 @@ function Trainer({db,set,tab,toast,setTab}){
  const setS=(e,k,f)=>updEx(e.id,{series:e.series.map((x,i)=>i===k?{...x,...f}:x)});
  const num=v=>+String(v).replace(/\D/g,"")||0;
 const [nw,setNw]=useState(null);const [dtl,setDtl]=useState(null);const [vdo,setVdo]=useState(null);
- const [nx,setNx]=useState({name:"",sets:3,reps:"10",rest:60,video:""});
+ const [nx,setNx]=useState({name:"",sets:3,reps:"10",rest:60,video:""});const [exP,setExP]=useState(false),[impO,setImpO]=useState(false),[bulkT,setBulkT]=useState(""),[bulkO,setBulkO]=useState(false);
  const [dvd,setDvd]=useState("");const dv=tab==="alu"?"all":"ag";const [thd,setThd]=useState(false);const [eq,setEq]=useState("");const [sqM,setSqM]=useState(0);const [fnT,setFnT]=useState("saq");const [agx,setAgx]=useState({});const [fv,setFv]=useState("mes");const [fm,setFm]=useState(0);const [fk,setFk]=useState("sal");const [fcal,setFcal]=useState(false);const [fq,setFq]=useState("");const [ff,setFf]=useState("atr");const [fo,setFo]=useState(false);const [fg,setFg]=useState(30);const [srt,setSrt]=useState("pri");const [plF,setPlF]=useState("");const [pg,setPg]=useState(30);const [svT,setSvT]=useState(false);const [sub,setSub]=useState("cargas");const [phD,setPhD]=useState(iso(TODAY));const [pend,setPend]=useState(null);const [notif,setNotif]=useState(false);const [msub,setMsub]=useState("musc");const [openEx,setOpenEx]=useState(null);const [flt,setFlt]=useState("all");const [openC,setOpenC]=useState(null);const [ast,setAst]=useState("a");const [drag,setDrag]=useState(null);const [delT,setDelT]=useState(null);const [rnw,setRnw]=useState(null);const togWd=(id,ks,v)=>set(d=>({...d,students:d.students.map(x=>x.id===id?{...x,wd:{...(x.wd||{}),...Object.fromEntries(ks.map(k=>[k,v]))}}:x)}));const [svd,setSvd]=useState({});const [exD,setExD]=useState(null);const [qs,setQs]=useState("");const [showLib,setShowLib]=useState(false);const [showAdd,setShowAdd]=useState(false);const [openA,setOpenA]=useState(null);const [bsub,setBsub]=useState("templates");const [qv,setQv]=useState("");const [nvN,setNvN]=useState("");const [nvL,setNvL]=useState("");const [pick,setPick]=useState(null);const [openT,setOpenT]=useState(null);const [mdl,setMdl]=useState("");const [nmT,setNmT]=useState("");const [wkOff,setWkOff]=useState(0);const [exSel,setExSel]=useState(0);const [evDay,setEvDay]=useState("A");const [finSel,setFinSel]=useState(1);const [off,setOff]=useState(0);
  const exs=(db.w[wk]||{})[day];const hist=((db.w[wk].A||[])[exSel]||(db.w[wk].A||[])[0]||{hist:[]}).hist;
  const updM=f=>set(d=>({...d,meta:{...d.meta,[wk]:{...d.meta[wk],[day]:{...d.meta[wk][day],...f}}}}));
  const addDia=()=>{const L=[..."ABCDEFG"].find(x=>!(x in db.w[wk])),free=DIAS.find(x=>!days.some(k=>(mt[k]||{}).dia===x));if(!L||!free)return;
   set(d=>({...d,w:{...d.w,[wk]:{...d.w[wk],[L]:[]}},meta:{...d.meta,[wk]:{...d.meta[wk],[L]:{dia:free,nome:"Novo treino"}}}}));setDay(L);toast(`${FULL[free]} criado`)};
+ const addFromBank=(items,df,newB)=>{const n=(st.meso-1)*4+st.week,es=items.map(v=>{const e=mk(v.nome,Math.max(1,+df.sets||3),String(df.reps||"10"),+df.rest||60,0,Array.from({length:n},()=>null));e.series=e.series.filter(q=>q.tipo==="Trabalho");e.obs=null;e.video=v.link||"";e.vname=v.fname||"";return e});
+  set(d=>({...d,videos:[...newB.filter(x=>!d.videos.some(y=>nz(y.nome)===nz(x.nome))),...d.videos],w:{...d.w,[wk]:{...d.w[wk],[day]:[...((d.w[wk]||{})[day]||[]),...es]}}}));setExP(false);if(es[0])setOpenEx(es[0].id);toast(es.length===1?"Exercício adicionado":es.length+" exercícios adicionados")};
+ const applyImp=(ds,mode,sv)=>{const n=(st.meso-1)*4+st.week,hist=ld=>Array.from({length:n},(_,i)=>i===n-1&&ld?ld:null);let cnt=0;
+  set(d=>{const w0=mode==="rep"?{}:{...(d.w[wk]||{})},m0=mode==="rep"?{}:{...(d.meta[wk]||{})};let vids=d.videos;const PREF={1:["Seg"],2:["Seg","Qui"],3:["Seg","Qua","Sex"],4:["Seg","Ter","Qui","Sex"],5:["Seg","Ter","Qua","Qui","Sex"],6:DIAS}[Math.min(6,ds.length)]||DIAS;
+   ds.slice(0,6).forEach(dy=>{let L=mode!=="rep"&&dy.key&&dy.key in w0?dy.key:[..."ABCDEFG"].find(x=>!(x in w0));if(!L)return;
+    if(!(L in m0)){const us=Object.values(m0).map(x=>x.dia),dia=(dy.dia&&!us.includes(dy.dia)?dy.dia:null)||PREF.find(x=>!us.includes(x))||DIAS.find(x=>!us.includes(x));if(!dia)return;m0[L]={dia,nome:dy.nome||"Treino "+L};w0[L]=[]}
+    else if(dy.nome&&!m0[L].nome)m0[L]={...m0[L],nome:dy.nome};
+    const es=dy.exs.map(x=>{const nm=x.bname||tcase(x.name);if(sv&&!x.bname&&!vids.some(v=>nz(v.nome)===nz(nm)))vids=[{id:"v"+Date.now()+Math.random().toString(36).slice(2,5),nome:nm,link:""},...vids];
+     const e=mk(nm,x.sets,String(x.reps),x.rest||60,x.load||0,hist(x.load));e.series=e.series.filter(q=>q.tipo==="Trabalho");e.obs=null;e.video=x.link||"";return e});cnt+=es.length;w0[L]=[...(w0[L]||[]),...es]});
+   return {...d,videos:vids,w:{...d.w,[wk]:w0},meta:{...d.meta,[wk]:m0}}});
+  setImpO(false);setDay("");toast(cnt+" exercícios importados")};
+ const addBulk=()=>{const add=[];bulkT.split("\n").map(l=>l.trim()).filter(Boolean).forEach(l=>{const m=l.match(/^(.*?)\s*(?:\||;|\t|\s[-–]\s)\s*(https?:\/\/\S+)\s*$/)||l.match(/^(.*?)\s+(https?:\/\/\S+)\s*$/);const nome=tcase(m?m[1]:l.replace(/https?:\/\/\S+/,"")),link=m?m[2]:(l.match(/https?:\/\/\S+/)||[""])[0];if(nome)add.push({nome,link})});
+  if(!add.length)return toast("Cole uma lista: um exercício por linha");let nN=0,nU=0;
+  setV(l=>{let r=[...l];add.forEach(a=>{const i=r.findIndex(x=>nz(x.nome)===nz(a.nome));if(i>=0){if(a.link&&!r[i].link){r[i]={...r[i],link:a.link};nU++}}else{r=[{id:"v"+Date.now()+Math.random().toString(36).slice(2,6),nome:a.nome,link:a.link},...r];nN++}});return r});
+  setBulkT("");setBulkO(false);toast("Banco atualizado")};
  const applyTpl=(t,sid)=>{const q=db.students.find(x=>x.id===sid),n=(q.meso-1)*4+q.week;
   const nw=Object.fromEntries(Object.entries(t.days).map(([k,v])=>[k,v.ex.map(e=>({id:Math.random().toString(36).slice(2),name:e.name,series:e.series.map(x=>({...x,load:0,ok:false})),video:e.video||"",load:0,hist:Array.from({length:n},()=>null),obs:e.obs||null}))]));
   const ks=Object.keys(t.days),sg=sug(ks.length),nmeta=Object.fromEntries(ks.map((k,i)=>[k,{dia:sg[i]||DIAS[i%6],nome:t.days[k].nome}]));
@@ -321,22 +336,24 @@ const [nw,setNw]=useState(null);const [dtl,setDtl]=useState(null);const [vdo,set
   <Btn className="w-full" onClick={()=>{setCl(l=>[...l,CK("Esteira",30,"Moderada",[],"")]);toast("Cardio adicionado")}}><Ic n="Plus" s={16}/>Adicionar cardio</Btn></div>;
  const vf=db.videos.filter(v=>v.nome.toLowerCase().includes(qv.trim().toLowerCase()));
  const setV=f=>set(d=>({...d,videos:f(d.videos)}));
- const addV=()=>{if(!nvN.trim())return toast("Informe o nome do exercício");setV(l=>[{id:"v"+Date.now(),nome:nvN.trim(),link:nvL.trim()},...l]);setNvN("");setNvL("");toast("Vídeo adicionado")};
+ const addV=()=>{if(!nvN.trim())return toast("Informe o nome do exercício");setV(l=>[{id:"v"+Date.now(),nome:nvN.trim(),link:nvL.trim()},...l]);setNvN("");setNvL("");toast("Exercício adicionado ao banco")};
  const choose=v=>{if(pick.mode==="ex"){updEx(pick.id,{video:v.link,vname:v.fname||""});toast("Vídeo vinculado ao exercício")}else{setNx({...nx,name:v.nome,video:v.link,vname:v.fname||""});toast("Exercício escolhido")}setPick(null)};
  const SearchBox=<input placeholder="Buscar exercício…" value={qv} onChange={e=>setQv(e.target.value)} className="w-full"/>;
  const VIDS=<div className="space-y-4">
-  <p className="text-xs text-[#71717A] leading-snug">Vídeos de execução dos exercícios dos treinos, com nome e link. No Montador, você escolhe daqui o exercício e o link.</p>
-  <Card><Lbl>Novo vídeo</Lbl><div className="grid gap-2 mt-3"><input placeholder="Nome do exercício" value={nvN} onChange={e=>setNvN(e.target.value)}/><input placeholder="Link do vídeo (YouTube)" value={nvL} onChange={e=>setNvL(e.target.value)} className="text-sm"/>
-   <Btn onClick={addV}><Ic n="Plus" s={16}/>Adicionar vídeo</Btn>
+  <p className="text-xs text-[#71717A] leading-snug">Seu banco de exercícios: cada um tem nome e link do vídeo de execução, e os dois andam juntos. No Montador você escolhe daqui, sem digitar, e o vídeo já vai junto para a aluna.</p>
+  <Card><Lbl>Novo exercício</Lbl><div className="grid gap-2 mt-3"><input placeholder="Nome do exercício" value={nvN} onChange={e=>setNvN(e.target.value)}/><input placeholder="Link do vídeo (YouTube)" value={nvL} onChange={e=>setNvL(e.target.value)} className="text-sm"/>
+   <Btn onClick={addV}><Ic n="Plus" s={16}/>Adicionar exercício</Btn>
    <Up className="py-2.5 text-sm" onFile={f=>{setV(l=>[{id:"v"+Date.now(),nome:nvN.trim()||f.name.replace(/\.[^.]+$/,""),link:upBlob(f,"midia"),file:true,fname:f.name},...l]);setNvN("");toast("Vídeo enviado da galeria")}}><Ic n="Upload" s={16}/>Enviar vídeo da galeria</Up></div></Card>
+  <div><button onClick={()=>setBulkO(!bulkO)} className="w-full flex items-center justify-between bg-[#212126] border border-[#303036] rounded-2xl px-3.5 py-3 text-sm"><span className="flex items-center gap-2.5"><span className="text-[#E04458]"><Ic n="ClipboardList" s={16}/></span>Adicionar vários de uma vez</span><span className={"text-[#8a8a93] transition-transform "+(bulkO?"rotate-180":"")}><Ic n="ChevronDown" s={16}/></span></button>
+   {bulkO&&<Card className="mt-2"><p className="text-[11px] text-[#71717A] leading-snug">Cole uma lista, um exercício por linha, com o link depois do nome. Ex.: Hip thrust - https://youtu.be/… Quem já existe só ganha o link, se estiver sem.</p><textarea rows={6} value={bulkT} onChange={e=>setBulkT(e.target.value)} placeholder={"Hip thrust - https://youtu.be/abc\nRosca direta | https://youtu.be/def\nAgachamento sumô"} className="w-full mt-2 resize-none text-sm text-white"/><Btn className="w-full mt-2" disabled={!bulkT.trim()} onClick={addBulk}>Adicionar à lista</Btn></Card>}</div>
   {SearchBox}
-  {vf.length===0&&<Card><p className="text-sm text-[#71717A] text-center py-3">Nenhum vídeo encontrado.</p></Card>}
+  {vf.length===0&&<Card><p className="text-sm text-[#71717A] text-center py-3">Nenhum exercício encontrado.</p></Card>}
   {vf.map(v=><Card key={v.id}>
    <div className="flex items-center gap-2"><input aria-label="Nome" value={v.nome} onChange={e=>setV(l=>l.map(x=>x.id===v.id?{...x,nome:e.target.value}:x))} className="flex-1 min-w-0 !border-transparent !p-0 text-base font-light"/>
     <button aria-label="Remover vídeo" onClick={()=>setV(l=>l.filter(x=>x.id!==v.id))} className="text-[#71717A] hover:text-white"><Ic n="Trash2" s={16}/></button></div>
    <div className="flex items-center gap-2 mt-2">{v.file?<div className="flex-1 min-w-0 text-xs text-[#a1a1aa] border border-[#303036] rounded-lg px-2.5 py-2 truncate flex items-center gap-1.5"><Ic n="Video" s={13}/><span className="truncate">Vídeo enviado · {v.fname}</span></div>:<input aria-label="Link" placeholder="Cole o link do vídeo" value={v.link} onChange={e=>setV(l=>l.map(x=>x.id===v.id?{...x,link:e.target.value}:x))} className="flex-1 min-w-0 text-xs"/>}
     {(v.file||/^https?:/.test(v.link))&&<a href={v.link} target="_blank" rel="noreferrer" aria-label="Abrir vídeo" className="shrink-0 w-9 h-9 rounded-lg border border-[#303036] flex items-center justify-center text-[#a1a1aa] hover:text-white"><Ic n="ExternalLink" s={15}/></a>}</div></Card>)}</div>;
- const PICK=pick&&<Modal onClose={()=>setPick(null)}><div className="flex items-center justify-between mb-3"><div className="text-lg font-light">Vídeos de execução</div><button aria-label="Fechar" onClick={()=>setPick(null)} className="text-[#71717A] hover:text-white"><Ic n="X" s={18}/></button></div>
+ const PICK=pick&&<Modal onClose={()=>setPick(null)}><div className="flex items-center justify-between mb-3"><div className="text-lg font-light">Escolher vídeo do banco</div><button aria-label="Fechar" onClick={()=>setPick(null)} className="text-[#71717A] hover:text-white"><Ic n="X" s={18}/></button></div>
   {SearchBox}
   <div className="mt-3 max-h-[50vh] overflow-y-auto divide-y divide-[#2c2c32]">{vf.length===0&&<p className="text-sm text-[#71717A] text-center py-6">Nenhum vídeo encontrado.</p>}
    {vf.map(v=><button key={v.id} onClick={()=>choose(v)} className="w-full text-left py-3 flex items-center justify-between gap-3"><div className="min-w-0"><div className="text-sm">{v.nome}</div><div className="text-[11px] text-[#71717A] truncate">{v.file?"Vídeo enviado · "+v.fname:(v.link||"Sem link")}</div></div><span className="text-[#52525b] shrink-0"><Ic n="ChevronRight" s={16}/></span></button>)}</div></Modal>;
@@ -409,6 +426,7 @@ const [nw,setNw]=useState(null);const [dtl,setDtl]=useState(null);const [vdo,set
   AL.forEach(x=>{const d=swapD(x);if(!d||x.pre||x.aw)return;const n=dd0(d);if(n>10)return;items.push({id:"s"+x.id,x,n,ic:"RefreshCw",t:x.hasNx?"Troca pronta · meso "+(x.meso+1):"Montar mesociclo "+(x.meso+1),w:when(n,d),b:x.hasNx?<button onClick={()=>goMont(x)} className="shrink-0 text-xs rounded-full px-3 py-1.5 text-[#22c55e] border border-[#22c55e]/40 flex items-center gap-1"><Ic n="Check" s={13}/>Pronto</button>:<Btn className="!py-1.5 !px-3.5 text-xs shrink-0" onClick={()=>goMont(x)}>Montar</Btn>})});
   AL.filter(x=>!x.aw&&dd0(endD(x))<=7).forEach(x=>{const d=endD(x),n=dd0(d);items.push({id:"p"+x.id,x,n,ic:"CalendarClock",t:"Cobrar renovação · "+x.plan+" (meso "+x.nm+")",w:when(n,d),b:<Btn ghost className="!py-1.5 !px-3.5 text-xs shrink-0" onClick={()=>toast("Link de renovação enviado a "+x.name.split(" ")[0])}>Cobrar</Btn>})});
   (db.inactive||[]).filter(x=>x.expired).forEach(x=>items.push({id:"v"+x.id,x,n:30,ic:"Clock",t:"Inativa · plano vencido",w:"Não renovou · venceu em "+x.renew,b:<Btn ghost className="!py-1.5 !px-3.5 text-xs shrink-0" onClick={()=>setRnw(x)}>Reativar</Btn>}));
+  AL.filter(x=>x.delReq).forEach(x=>{const d=dt(iso(new Date(new Date(x.delReq.ts).getTime()+15*864e5))),n=dd0(d);items.push({id:"dl"+x.id,x,n:Math.min(0,n),ic:"Trash2",t:"Pedido de exclusão de dados",w:n<0?"Prazo LGPD venceu em "+fd(d):"Responder até "+fd(d)+" (LGPD)",b:<span className="text-[#52525b] shrink-0"><Ic n="ChevronRight" s={15}/></span>})});
   items.sort((a,b)=>a.n-b.n);
   const nF=AL.filter(x=>alerts(x).some(z=>z.k==="fot")).length,nB=AL.filter(x=>x.fb).length,chev=<span className="text-[#52525b] shrink-0"><Ic n="ChevronRight" s={15}/></span>;
   const PEND=[];AL.forEach(x=>pcs(x).forEach(q=>{if(q.pd&&!q.sac&&dd0(q.sd)<=7)PEND.push(q)}));
@@ -471,6 +489,9 @@ const [nw,setNw]=useState(null);const [dtl,setDtl]=useState(null);const [vdo,set
    <div className="flex items-center justify-between"><button onClick={()=>setTab("dash")} className="flex items-center gap-1 text-sm text-[#71717A] hover:text-white"><Ic n="ChevronLeft" s={16}/>Painel</button>{(()=>{const ix=lstF.findIndex(x=>x.id===st.id),go=d=>{const n=lstF[ix+d];if(n){setSel(n.id)}};return ix>=0&&lstF.length>1?<div className="flex items-center gap-1 text-xs text-[#71717A]"><button aria-label="Aluna anterior" disabled={ix===0} onClick={()=>go(-1)} className="w-9 h-9 rounded-full border border-[#303036] flex items-center justify-center disabled:opacity-30"><Ic n="ChevronLeft" s={16}/></button><span className="w-14 text-center">{ix+1} de {lstF.length}</span><button aria-label="Próxima aluna" disabled={ix===lstF.length-1} onClick={()=>go(1)} className="w-9 h-9 rounded-full border border-[#303036] flex items-center justify-center disabled:opacity-30"><Ic n="ChevronRight" s={16}/></button></div>:null})()}</div>
    <div className="flex items-center gap-4"><span className="w-16 h-16 shrink-0 rounded-full bg-gradient-to-br from-[#B3122A] to-[#5a0000] flex items-center justify-center text-xl font-medium">{ini(st.name)}</span>
     <div className="min-w-0 flex-1"><div className="flex items-center gap-2 flex-wrap"><h1 className="text-2xl font-semibold">{st.name}</h1><Badge s={st.status}/></div><div className="text-xs text-[#8a8a93] mt-1">Plano {st.plan} · adquirido {fd(dt(st.buy))} · {st.aw?"aguardando entrega do treino":(st.pre?"treino começa ":"treino desde ")+fd(st.ini)} · {st.aw?"renovação prevista ":"renova "}{st.renew}</div></div></div>
+   <Card><Lbl>WhatsApp de {st.name.split(" ")[0]}</Lbl><input aria-label="Link do grupo do WhatsApp da aluna" value={st.wpp||""} onChange={e=>set(d=>({...d,students:d.students.map(x=>x.id===st.id?{...x,wpp:e.target.value}:x)}))} placeholder="Link do grupo (chat.whatsapp.com/…)" className="w-full mt-3"/><p className="text-xs text-[#8a8a93] mt-2.5 leading-snug">O botão "Falar com seu treinador" dela abre este grupo. {st.wpp?<a href={st.wpp} target="_blank" rel="noopener noreferrer" className="underline text-white">Testar link</a>:"Sem link aqui, usa o grupo padrão da aba Check-in."}</p></Card>
+   {st.delReq&&<Card className="!border-[#f97316]/50"><div className="flex items-start gap-3"><span className="text-[#f97316] mt-0.5"><Ic n="Trash2" s={18}/></span><div className="min-w-0 flex-1"><div className="text-[15px] font-medium">Pedido de exclusão de dados</div><p className="text-xs text-[#a1a1aa] mt-1 leading-snug">Pedido em {fd(new Date(st.delReq.ts))}. Pela LGPD, responda em até 15 dias: apague os dados dela e encerre o acesso.</p><Btn ghost className="!py-1.5 !px-3.5 text-xs mt-3" onClick={()=>set(d=>({...d,students:d.students.map(x=>x.id===st.id?{...x,delReq:undefined,hist:["Pedido de exclusão atendido · "+fd(TODAY),...(x.hist||[])]}:x)}))}>Marcar como atendido</Btn></div></div></Card>}
+   <div className="flex items-center gap-2 text-xs text-[#8a8a93] px-1"><span className={st.lgpd?"text-[#22c55e]":"text-[#f97316]"}><Ic n={st.lgpd?"ShieldCheck":"ShieldAlert"} s={15}/></span>{st.lgpd?"LGPD: aceite em "+fd(new Date(st.lgpd.ts))+" · versão "+st.lgpd.v:"LGPD: aceite pendente. A aluna vê a tela de consentimento no primeiro acesso."}</div>
    {st.aw?<Card className="!border-[#f97316]/50"><div className="flex items-start gap-3"><span className="text-[#f97316] mt-0.5"><Ic n="Send" s={18}/></span><div className="min-w-0 flex-1"><div className="text-[15px] font-medium">Aguardando entrega do treino</div><p className="text-xs text-[#a1a1aa] mt-1 leading-snug">Prazo: até {fd(dt(st.dlv))} (7 dias após a aquisição). A aluna só acessa o app depois da entrega, e o plano passa a contar a partir da segunda-feira da entrega.</p></div></div>
     <div className="flex items-end gap-2 mt-3"><label className="flex-1 text-[11px] text-[#71717A]">Data da entrega<input type="date" value={dvd||iso(TODAY)} onChange={e=>setDvd(e.target.value)} className="mt-1 text-sm"/></label><Btn className="shrink-0" onClick={()=>{const dd=dvd||iso(TODAY);set(d=>({...d,students:d.students.map(x=>x.id===st.id?{...x,deliv:dd,hist:["Treino entregue · "+fd(dt(dd)),...(x.hist||[])]}:x)}));setDvd("");toast("Treino entregue · o plano conta a partir de "+fd(monOn(dt(dd))))}}><Ic n="Send" s={15}/>Entregar treino</Btn></div></Card>
    :st.deliv&&!st.st0?<div className="flex items-center justify-between gap-3 rounded-2xl border border-[#303036] px-4 py-3 text-xs text-[#a1a1aa]"><span>Treino entregue em {fd(dt(st.deliv))} · plano conta desde {fd(monOn(dt(st.deliv)))}</span><button onClick={()=>set(d=>({...d,students:d.students.map(x=>x.id===st.id?{...x,deliv:undefined}:x)}))} className="shrink-0 underline">Desfazer</button></div>:null}
@@ -530,7 +551,9 @@ const [nw,setNw]=useState(null);const [dtl,setDtl]=useState(null);const [vdo,set
   const un=(s,k)=>set(d=>({...d,students:d.students.map(x=>x.id===s.id?{...x,ci:(x.ci||[]).filter(r=>!(r.k===k&&r.cyc===(x.cycle||0)))}:x)}));
   const pend=rows.filter(x=>!x.r).length;
   return <div className="space-y-5"><div><p className="text-xs text-[#71717A]">Fim de mesociclo</p><h1 className="text-3xl mt-1.5">Check-in</h1></div>
-   <Card><Lbl>Link do formulário</Lbl><input aria-label="Link do formulário" value={db.ciLink||""} onChange={e=>set(d=>({...d,ciLink:e.target.value}))} placeholder="Cole aqui o link (Google Forms, Typeform…)" className="w-full mt-3"/>
+   <Card><Lbl>Grupo padrão do WhatsApp</Lbl><input aria-label="Link do grupo do WhatsApp" value={db.wpp||""} onChange={e=>set(d=>({...d,wpp:e.target.value}))} placeholder="https://chat.whatsapp.com/…" className="w-full mt-3"/>
+   <p className="text-xs text-[#8a8a93] mt-3 leading-snug">Usado só para alunas que não têm link próprio (o link de cada aluna fica na página dela, em Alunas). No WhatsApp: abra o grupo → Info do grupo → Convidar via link → Copiar link. {db.wpp?<a href={db.wpp} target="_blank" rel="noopener noreferrer" className="underline text-white">Testar link</a>:""}</p></Card>
+  <Card><Lbl>Link do formulário</Lbl><input aria-label="Link do formulário" value={db.ciLink||""} onChange={e=>set(d=>({...d,ciLink:e.target.value}))} placeholder="Cole aqui o link (Google Forms, Typeform…)" className="w-full mt-3"/>
     <p className="text-xs text-[#8a8a93] mt-3 leading-snug">A aluna vê um botão "Abrir formulário" na aba Check-in, a partir da segunda da semana 4 de cada mesociclo. {db.ciLink?<a href={db.ciLink} target="_blank" rel="noopener noreferrer" className="underline text-white">Testar link</a>:"Sem link, a aba mostra que o formulário ainda não foi liberado."}</p></Card>
    <div><div className="flex items-center justify-between mb-2"><Lbl>Acompanhamento</Lbl><span className="text-xs text-[#8a8a93]">{pend} {pend===1?"pendente":"pendentes"}</span></div>
    {rows.length===0?<Card><p className="text-sm text-[#71717A] text-center py-3">Nenhuma aluna com check-in liberado.</p></Card>:<Card className="!p-0"><div className="divide-y divide-[#2a2a2f]">{rows.map(({s,k,r})=><div key={s.id+"-"+k} className="px-4 py-3 flex items-center gap-3"><button aria-label={r?"Desmarcar":"Marcar como enviado"} onClick={()=>r?un(s,k):mk(s,k)} className={"w-8 h-8 shrink-0 rounded-full border flex items-center justify-center "+(r?"bg-[#22c55e] border-[#22c55e] text-black":"border-[#4a4a52] text-transparent")}><Ic n="Check" s={15}/></button>
@@ -539,7 +562,7 @@ const [nw,setNw]=useState(null);const [dtl,setDtl]=useState(null);const [vdo,set
  
 if(tab==="bib")return <div className="space-y-5">
   <div><h1 className="text-2xl font-light">Biblioteca</h1><p className="text-sm text-[#71717A] mt-1">Modelos de treino e arquivo das alunas</p></div>
-  <div className="flex border border-[#303036] rounded-full p-0.5 text-sm">{[["templates","Templates"],["arq","Arquivos"],["videos","Vídeos de execução"]].map(([k,l])=><button key={k} onClick={()=>setBsub(k)} className={"flex-1 py-2 px-1 text-[13px] leading-tight rounded-full "+(bsub===k?"bg-[#8E0000] text-white":"text-[#71717A]")}>{l}</button>)}</div>
+  <div className="flex border border-[#303036] rounded-full p-0.5 text-sm">{[["templates","Templates"],["arq","Arquivos"],["videos","Exercícios"]].map(([k,l])=><button key={k} onClick={()=>setBsub(k)} className={"flex-1 py-2 px-1 text-[13px] leading-tight rounded-full "+(bsub===k?"bg-[#8E0000] text-white":"text-[#71717A]")}>{l}</button>)}</div>
   {bsub==="arq"?ARQ:bsub==="videos"?VIDS:<>
   <Card><Lbl>Copiar para a aluna</Lbl><select value={sel} onChange={e=>setSel(+e.target.value)} className="w-full mt-3">{db.students.map(s=><option key={s.id} value={s.id}>{s.name}</option>)}</select></Card>
   {db.lib.map(t=>{const op=openT===t.id;return <Card key={t.id}>
@@ -597,10 +620,8 @@ if(tab==="bib")return <div className="space-y-5">
      <Btn ghost className="!px-3 text-xs" aria-label="Escolher da biblioteca de vídeos" onClick={()=>{setQv("");setPick({mode:"ex",id:e.id})}}><Ic n="Library" s={14}/></Btn>
      {isB(e.video)&&<Btn ghost className="!px-3 text-xs" aria-label="Remover vídeo enviado" onClick={()=>updEx(e.id,{video:"",vname:""})}><Ic n="X" s={14}/></Btn>}
      <Up className="px-3 text-xs" onFile={f=>{updEx(e.id,{video:upBlob(f,"midia"),vname:f.name});toast("Vídeo enviado da galeria")}}><Ic n="Upload" s={14}/></Up></div>}</div>})()}</Card>})}</div>
-  <div className="flex gap-2"><input placeholder="Novo exercício…" aria-label="Nome do novo exercício" value={nx.name} onChange={e=>setNx({...nx,name:e.target.value})} className="flex-1 min-w-0"/>
-   <Btn ghost className="!px-3 shrink-0" aria-label="Escolher da biblioteca de vídeos" onClick={()=>{setQv("");setPick({mode:"new"})}}><Ic n="Library" s={16}/></Btn>
-   <Btn className="shrink-0 !px-4" onClick={()=>{if(!nx.name.trim())return toast("Informe o nome");const e=mk(nx.name,nx.sets||3,nx.reps||"10",nx.rest||60,20,(()=>{const n=(st.meso-1)*4+st.week;return Array.from({length:n},(_,i)=>i===n-1?20:null)})());e.video=nx.video||"";e.vname=nx.vname||"";
-    set(d=>({...d,w:{...d.w,[wk]:{...d.w[wk],[day]:[...exs,e]}}}));setNx({name:"",sets:3,reps:"10",rest:60,video:"",vname:""});setOpenEx(e.id);toast("Exercício adicionado")}}><Ic n="Plus" s={16}/>Adicionar</Btn></div>
+  {exs.length===0&&<Card className="text-center"><p className="text-sm text-[#a1a1aa] leading-snug">Este dia ainda não tem exercícios.<br/>Escolha do banco ou importe o treino pronto da aluna.</p></Card>}
+  <div className="grid grid-cols-2 gap-2"><Btn onClick={()=>setExP(true)}><Ic n="Plus" s={16}/>Do banco</Btn><Btn ghost onClick={()=>setImpO(true)}><Ic n="ClipboardList" s={16}/>Importar treino</Btn></div>
   {st.meso>=st.nm&&(()=>{const k="c"+sel+"_"+(st.cycle||0)+"_"+st.meso,sv=svd[k],nE=days.reduce((t,k2)=>t+((db.w[wk]||{})[k2]||[]).length,0);
    const doSv=()=>{if(!nE)return toast("Adicione ao menos um exercício");const hm=new Date().toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit"});
     set(d=>({...d,students:d.students.map(x=>x.id===sel?{...x,hist:["Treino do mesociclo "+st.meso+" salvo · "+fd(TODAY),...x.hist]}:x)}));setSvd(o=>({...o,[k]:hm}));toast("Treino salvo para "+st.name.split(" ")[0])};
@@ -610,7 +631,7 @@ if(tab==="bib")return <div className="space-y-5">
     if(!nxOn)openNx();
     set(d=>({...d,students:d.students.map(x=>x.id===sel?{...x,hist:["Treino do mesociclo "+mN+" salvo · "+fd(TODAY),...x.hist]}:x)}));
     setSvd(o=>({...o,[k]:hm}));toast("Treino salvo para "+st.name.split(" ")[0]+" · entra no mesociclo "+mN+(sd?" em "+fdw(sd):""))};
-   return <div className="pt-1"><Btn className="w-full" onClick={doSv}><Ic n="Check" s={16}/>Salvar treino · Mesociclo {mN}</Btn><p className="text-[11px] text-center text-[#71717A] mt-2">{sv?"Salvo às "+sv+" · ":""}{st.name.split(" ")[0]} muda de mesociclo {sd?"em "+fdw(sd):"em breve"}{!nxOn?" · copia o treino atual como base":""}</p></div>})()}</>}{confirmM}{PICK}</div>
+   return <div className="pt-1"><Btn className="w-full" onClick={doSv}><Ic n="Check" s={16}/>Salvar treino · Mesociclo {mN}</Btn><p className="text-[11px] text-center text-[#71717A] mt-2">{sv?"Salvo às "+sv+" · ":""}{st.name.split(" ")[0]} muda de mesociclo {sd?"em "+fdw(sd):"em breve"}{!nxOn?" · copia o treino atual como base":""}</p></div>})()}</>}{confirmM}{PICK}{exP&&<ExPicker vids={db.videos} onAdd={addFromBank} onClose={()=>setExP(false)}/>}{impO&&<ImportTreino vids={db.videos} onApply={applyImp} onClose={()=>setImpO(false)}/>}</div>
 
  if(tab==="sq"){
   const base=new Date(TODAY.getFullYear(),TODAY.getMonth()+sqM,5),k5=base.getTime(),rows=[];
@@ -756,7 +777,8 @@ function Student({db,set,tab,toast,setTab,fgo,openN,nN,simDay,sid,setSid,logout}
  const shareImg=()=>{const c=shrC.current;if(!c)return;c.toBlob(async b=>{if(!b)return saveImg();const f=new File([b],"treino-team-correa.png",{type:"image/png"});try{if(navigator.canShare&&navigator.canShare({files:[f]}))await navigator.share({files:[f],text:"Treino concluído 💪 Team Corrêa"});else saveImg()}catch(e){if(!e||e.name!=="AbortError")saveImg()}},"image/png")};
 
 
- if(st.inactive)return st.expired?<div className="text-center py-16 px-2"><Ic n="CalendarX" s={40} c="mx-auto text-[#EF3347]"/><div className="text-xl font-semibold mt-4">Acesso pausado</div><p className="text-sm text-[#a1a1aa] mt-2 leading-snug">Seu plano {st.plan} venceu em {st.renew} e o acesso foi pausado. Fale com sua treinadora: ao renovar, ela reativa o seu acesso e você volta a treinar, com todo o seu histórico guardado.</p></div>
+ if(!st.lgpd)return <LgpdGate name={st.name} onOk={g=>set(d=>({...d,students:d.students.map(x=>x.id===id?{...x,lgpd:g,hist:["Aceitou a Política de Privacidade · "+fd(TODAY),...(x.hist||[])]}:x)}))} logout={logout}/>;
+ if(st.inactive)return st.expired?<div className="text-center py-16 px-2"><Ic n="CalendarX" s={40} c="mx-auto text-[#EF3347]"/><div className="text-xl font-semibold mt-4">Acesso pausado</div><p className="text-sm text-[#a1a1aa] mt-2 leading-snug">Seu plano {st.plan} venceu em {st.renew} e o acesso foi pausado. Fale com seu treinador: ao renovar, ele reativa o seu acesso e você volta a treinar, com todo o seu histórico guardado.</p></div>
  :<div className="text-center py-20"><Ic n="PauseCircle" s={40} c="mx-auto text-[#8a8a93]"/><div className="text-xl font-semibold mt-4">Acesso inativo</div><p className="text-sm text-[#a1a1aa] mt-2">Seu plano está pausado. Fale com seu treinador para reativar.</p></div>;
  if(st.aw&&tab!=="plano")return <Waiting st={st}/>;
  const cntP=k=>["Frente","Costas","Perfil"].filter(x=>st.photos.some(q=>q.meso===k&&q.pos===x)).length;
@@ -936,9 +958,10 @@ function Student({db,set,tab,toast,setTab,fgo,openN,nN,simDay,sid,setSid,logout}
  const H2=({children})=><h2 className="text-[22px] font-semibold mb-3 mt-1">{children}</h2>;
  return <div className="space-y-8"><h1 className="text-3xl font-semibold">Você</h1>
   <div className="flex items-center gap-4"><span className="w-14 h-14 rounded-full bg-[#8E0000]/25 text-[#E04458] flex items-center justify-center text-xl font-semibold">{st.name.charAt(0)}</span><div className="min-w-0"><div className="text-lg font-semibold truncate">{st.name}</div><div className="text-xs text-[#8a8a93] truncate">{emailOf(st)}</div></div></div>
-  <div><H2>Seu acompanhamento</H2><GP><RW i="User" t="Team Corrêa" d="Sua treinadora · Consultoria online"/><RW i="MessageCircle" t="Falar com a treinadora" d="Abre a conversa no WhatsApp" href={"https://wa.me/?text="+encodeURIComponent("Oi! Aqui é "+st.name.split(" ")[0]+", aluna da Team Corrêa.")}/></GP></div>
+  <div><H2>Seu acompanhamento</H2><GP><RW i="User" t="Team Corrêa" d="Seu treinador · Consultoria online"/><RW i="MessageCircle" t="Falar com seu treinador" d="Abre o grupo no WhatsApp" href={(st.wpp||db.wpp||"").trim()||("https://wa.me/?text="+encodeURIComponent("Oi! Aqui é "+st.name.split(" ")[0]+", aluno(a) da Team Corrêa."))}/></GP></div>
   <div><H2>Seu plano</H2><GP><RW i="CreditCard" t={"Plano "+st.plan} d={"Adquirido em "+fd(dt(st.buy))+" · renova "+(st.nm===1?"ao fim das 4 semanas":"ao fim do "+st.nm+"º mesociclo")} x={<Badge s={st.status}/>}/><RW i="CalendarClock" t="Renovação" d={st.renew}/><RW i="Layers" t={"Mesociclo "+st.meso+" de "+st.nm} d={st.dl?"Semana de deload "+st.dl.w+"/"+st.dl.n:"Semana "+st.week+" de 4"} go={()=>setTab("evolucao")}/></GP></div>
   <div><H2>Histórico do plano</H2><GP>{st.hist.map((h,k)=><RW key={k} i="History" t={h}/>)}</GP></div>
+  <PrivSec st={st} db={db} set={set} toast={toast} H2={H2} GP={GP} RW={RW}/>
   <div><H2>Conta</H2><GP><RW i="LogOut" t="Sair" d="Encerrar a sessão neste aparelho" go={logout}/></GP></div></div>
 }
 
@@ -957,10 +980,10 @@ const resolveSb=async o=>{const tok=new Set();const walk=v=>{if(typeof v==="stri
  const rep=v=>typeof v==="string"?(map.get(v)||v):Array.isArray(v)?v.map(rep):v&&typeof v==="object"?Object.fromEntries(Object.entries(v).map(([k,x])=>[k,rep(x)])):v;return rep(o)};
 const bundleOf=b=>({s:b.s,w:b.w||{},wn:b.wn||null,done:b.done||{},nxi:b.nxi||null,cardio:b.cardio||[],meta:b.meta||{},sessions:b.sessions||[],arch:b.arch||[]});
 const bundle=(d,s)=>({s,w:d.w[s.id]||{},wn:d.w["n"+s.id]||null,done:d.done[s.id]||{},nxi:(d.nxi||{})[s.id]||null,cardio:(d.cardio||{})[s.id]||[],meta:(d.meta||{})[s.id]||{},sessions:d.sessions.filter(x=>x.sid===s.id),arch:d.arch.filter(x=>x.sid===s.id)});
-const studioOf=d=>({lib:d.lib,videos:d.videos,ciLink:d.ciLink||""});
-const joinDb=(rows,studio)=>{const base={students:[],w:{},done:{},timer:null,nxi:{},sessions:[],lib:LIB(),arch:[],cardio:{},meta:{},videos:VIDS0(),ciLink:""};
+const studioOf=d=>({lib:d.lib,videos:d.videos,ciLink:d.ciLink||"",wpp:d.wpp||""});
+const joinDb=(rows,studio)=>{const base={students:[],w:{},done:{},timer:null,nxi:{},sessions:[],lib:LIB(),arch:[],cardio:{},meta:{},videos:VIDS0(),ciLink:"",wpp:""};
  rows.forEach(r=>{const b=bundleOf(r.data||{});if(!b.s)return;const id=b.s.id;base.students.push(b.s);base.w[id]=b.w;if(b.wn)base.w["n"+id]=b.wn;base.done[id]=b.done;if(b.nxi)base.nxi[id]=b.nxi;base.cardio[id]=b.cardio;base.meta[id]=b.meta;base.sessions.push(...b.sessions);base.arch.push(...b.arch)});
- if(studio){if(studio.lib)base.lib=studio.lib;if(studio.videos)base.videos=studio.videos;if(studio.ciLink!=null)base.ciLink=studio.ciLink}return base};
+ if(studio){if(studio.lib)base.lib=studio.lib;if(studio.videos)base.videos=studio.videos;if(studio.ciLink!=null)base.ciLink=studio.ciLink;if(studio.wpp!=null)base.wpp=studio.wpp}return base};
 const putRow=(p,b)=>{const id=b.s.id,w={...p.w,[id]:b.w},nx={...(p.nxi||{})};delete w["n"+id];if(b.wn)w["n"+id]=b.wn;delete nx[id];if(b.nxi)nx[id]=b.nxi;
  return {...p,students:p.students.some(x=>x.id===id)?p.students.map(x=>x.id===id?b.s:x):[...p.students,b.s],w,nxi:nx,done:{...p.done,[id]:b.done},cardio:{...p.cardio,[id]:b.cardio},meta:{...p.meta,[id]:b.meta},sessions:[...p.sessions.filter(x=>x.sid!==id),...b.sessions],arch:[...p.arch.filter(x=>x.sid!==id),...b.arch]}};
 function useSupa(db,setDb,onAuth,onOut,toast){
@@ -994,7 +1017,7 @@ function useSupa(db,setDb,onAuth,onOut,toast){
   try{const q=await sb.from("students").select("id,updated_at");if(q.error)return;
    for(const x of q.data||[]){if(r.upd[x.id]===x.updated_at)continue;const d=dbR.current,s=d.students.find(y=>y.id===x.id);if(s&&r.base[x.id]&&!sameB(bundle(d,s),r.base[x.id]))continue;
     const rem=await sb.from("students").select("data,updated_at").eq("id",x.id).maybeSingle();if(!rem.data)continue;const b=await resolveSb(bundleOf(rem.data.data));r.base[x.id]=b;r.upd[x.id]=rem.data.updated_at;setDb(p=>putRow(p,b))}
-   if(!r.roleT){const sd=await sb.from("studio").select("data").eq("id",1).maybeSingle();if(sd.data){const st=await resolveSb(sd.data.data),j=ser(st);if(j!==r.studio){r.studio=j;setDb(p=>({...p,...(st.lib?{lib:st.lib}:{}),...(st.videos?{videos:st.videos}:{}),ciLink:st.ciLink||""}))}}}}catch(_){}};
+   if(!r.roleT){const sd=await sb.from("studio").select("data").eq("id",1).maybeSingle();if(sd.data){const st=await resolveSb(sd.data.data),j=ser(st);if(j!==r.studio){r.studio=j;setDb(p=>({...p,...(st.lib?{lib:st.lib}:{}),...(st.videos?{videos:st.videos}:{}),ciLink:st.ciLink||"",wpp:st.wpp||""}))}}}}catch(_){}};
  const saveErrR=useRef(false);saveErrR.current=saveErr;
  useEffect(()=>{if(!REAL||!R.current.loaded)return;const t=setTimeout(save,700);return()=>clearTimeout(t)},[db]);
  useEffect(()=>{if(!REAL)return;const t=setInterval(pull,20000),f=()=>{if(document.visibilityState==="visible")pull()},g=e=>toast("Falha ao enviar o arquivo: "+e.detail);document.addEventListener("visibilitychange",f);window.addEventListener("sbfail",g);return()=>{clearInterval(t);document.removeEventListener("visibilitychange",f);window.removeEventListener("sbfail",g)}},[]);
@@ -1002,9 +1025,9 @@ function useSupa(db,setDb,onAuth,onOut,toast){
   const {data:sub}=sb.auth.onAuthStateChange((ev,s)=>{if(ev==="PASSWORD_RECOVERY"){R.current.recov=true;setRs("recovery")}else if(ev==="SIGNED_OUT"){const r=R.current;r.loaded=false;r.booting=false;UID=null;onOut();setRs("login")}else if(ev==="SIGNED_IN"&&s)boot(s)});return()=>sub.subscription.unsubscribe()},[]);
  const recovered=()=>{R.current.recov=false;try{history.replaceState(null,"",location.pathname)}catch(_){}sb.auth.getSession().then(({data})=>data.session&&boot(data.session))};
  return {rs,msg,saveErr,saveMsg,recovered}}
-function RealLogin({sup}){const [m,setM]=useState("in");const [em,setEm]=useState("");const [pw,setPw]=useState("");const [sh,setSh]=useState(false);const [er,setEr]=useState("");const [ok,setOk]=useState("");const [bz,setBz]=useState(false);
+function RealLogin({sup}){const [m,setM]=useState("in");const [em,setEm]=useState("");const [pw,setPw]=useState("");const [sh,setSh]=useState(false);const [er,setEr]=useState("");const [ok,setOk]=useState("");const [bz,setBz]=useState(false);const [lg,setLg]=useState(false),[pol,setPol]=useState(false);
  const mail=()=>em.trim().toLowerCase(),okM=()=>/^\S+@\S+\.\S+$/.test(mail());
- const go=async e=>{e.preventDefault();setEr("");setOk("");if(!okM())return setEr("Digite um e-mail válido.");if(pw.length<6)return setEr("A senha precisa ter pelo menos 6 caracteres.");setBz(true);
+ const go=async e=>{e.preventDefault();setEr("");setOk("");if(!okM())return setEr("Digite um e-mail válido.");if(pw.length<6)return setEr("A senha precisa ter pelo menos 6 caracteres.");if(m!=="in"&&!lg)return setEr("Para criar sua conta, aceite a Política de Privacidade.");setBz(true);
   try{if(m==="in"){const r=await sb.auth.signInWithPassword({email:mail(),password:pw});if(r.error)setEr(/not confirmed/i.test(r.error.message)?"Confirme o seu e-mail pelo link que enviamos.":/invalid/i.test(r.error.message)?"E-mail ou senha incorretos.":r.error.message)}
    else{const r=await sb.auth.signUp({email:mail(),password:pw,options:{emailRedirectTo:location.origin+location.pathname}});if(r.error)setEr(r.error.message);else if(!r.data.session)setOk("Enviamos um e-mail de confirmação para "+mail()+". Abra o link para ativar o seu acesso e depois entre aqui.")}}
   catch(x){setEr("Sem conexão. Tente de novo.")}setBz(false)};
@@ -1022,12 +1045,158 @@ function RealLogin({sup}){const [m,setM]=useState("in");const [em,setEm]=useStat
     {m==="in"&&<div className="text-right text-[13px]"><button type="button" onClick={forgot} className="text-[#E04458]">Esqueci a senha</button></div>}
     {(er||sup.msg)&&<p role="alert" className="text-[13px] text-[#EF3347]">{er||sup.msg}</p>}
     {ok&&<p className="text-[13px] text-[#86efac]">{ok}</p>}
+    {m!=="in"&&<Chk on={lg} set={setLg}>Li e concordo com a <span role="link" onClick={e=>{e.stopPropagation();setPol(true)}} className="underline text-white">Política de Privacidade</span> e com o uso dos meus dados de saúde e fotos para o meu treino.</Chk>}
     <Btn type="submit" disabled={bz} className="w-full h-12 text-[15px]">{bz?"Aguarde…":m==="in"?"Entrar":"Criar meu acesso"}</Btn></form>
+   {pol&&<LgpdModal onClose={()=>setPol(false)}/>}
    <p className="text-[11px] text-[#52525b] text-center mt-6 leading-snug">Treinador: entre com o e-mail e a senha da sua conta. Alunas: o acesso só é liberado depois que o seu treinador cadastrar o seu e-mail.</p></div></div>}
 function RealRecovery({sup}){const [pw,setPw]=useState("");const [er,setEr]=useState("");const [bz,setBz]=useState(false);
  const go=async e=>{e.preventDefault();if(pw.length<6)return setEr("A senha precisa ter pelo menos 6 caracteres.");setBz(true);const r=await sb.auth.updateUser({password:pw});setBz(false);if(r.error)return setEr(r.error.message);sup.recovered()};
  return <div className="min-h-screen flex items-center justify-center px-6"><form onSubmit={go} className="w-full max-w-sm space-y-3"><img src={LOGO} alt="Team Corrêa" className="w-32 mx-auto mb-4"/><h1 className="text-2xl font-light text-center">Crie uma nova senha</h1><input type="password" autoComplete="new-password" placeholder="Nova senha (mín. 6 caracteres)" aria-label="Nova senha" value={pw} onChange={e=>setPw(e.target.value)} className="w-full h-12 text-[15px]"/>{er&&<p className="text-[13px] text-[#EF3347]">{er}</p>}<Btn type="submit" disabled={bz} className="w-full h-12">{bz?"Salvando…":"Salvar senha"}</Btn></form></div>}
 
+/* ---------------- BANCO DE EXERCÍCIOS + IMPORTAR TREINO ---------------- */
+const nz=s=>String(s||"").toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"").replace(/[^a-z0-9 ]+/g," ").replace(/\s+/g," ").trim();
+const STOPW=new Set(["com","de","da","do","das","dos","no","na","em","e","a","o","para","c","p"]);
+const toks=s=>nz(s).split(" ").filter(t=>t&&!STOPW.has(t));
+const tkEq=(a,b)=>a===b||(a.length>=4&&b.length>=4&&(a.startsWith(b)||b.startsWith(a)));
+const tcase=s=>{s=String(s||"").replace(/\s+/g," ").trim();if(s&&s===s.toUpperCase())s=s.toLowerCase();return s.replace(/^./,c=>c.toUpperCase())};
+const matchBank=(name,vids)=>{const A=toks(name);if(!A.length)return null;let best=null,bs=0;
+ for(const v of vids){const B=toks(v.nome);if(!B.length)continue;if(nz(v.nome)===nz(name))return v;
+  const inter=A.filter(a=>B.some(b=>tkEq(a,b))).length,uni=A.length+B.length-inter,j=inter/uni,mn=Math.min(A.length,B.length);
+  if((j>=0.6||(inter===mn&&mn>=2&&j>=0.5))&&j>bs){bs=j;best=v}}
+ return best};
+const WDM={segunda:"Seg",terca:"Ter",quarta:"Qua",quinta:"Qui",sexta:"Sex",sabado:"Sáb"};
+const SETS_RX=[/(\d{1,2})\s*[x×]\s*(\d{1,3}(?:\s*(?:-|–|a|à|até|ate)\s*\d{1,3})?|falha|máx|max)/i,/(\d{1,2})\s*(?:s[eé]ries?|sets?)\s*(?:de|x)?\s*(\d{1,3}(?:\s*(?:-|–|a)\s*\d{1,3})?)/i];
+const parseTreino=txt=>{
+ const lines=String(txt||"").replace(/\r/g,"").split("\n").map(l=>l.replace(/ /g," ").trim()).filter(Boolean);
+ const days=[];let cur=null;
+ const clean=s=>String(s||"").replace(/^[\s\-–:.)]+|[\s\-–:.(]+$/g,"").trim();
+ const newDay=(nome,key,dia)=>{const ex=key&&days.find(d=>d.key===key);if(ex){cur=ex;if(!ex.nome&&nome)ex.nome=clean(nome);return cur}cur={key:key||"",nome:clean(nome),dia:dia||"",exs:[]};days.push(cur);return cur};
+ const hasSets=l=>SETS_RX.some(r=>r.test(l));
+ const hdr=l=>{let m;
+  if((m=l.match(/^(?:treino|dia|day|workout)\s*([a-g]|\d)\b\s*[-–:.)]*\s*(.*)$/i)))return {key:/\d/.test(m[1])?"ABCDEFG"[+m[1]-1]:m[1].toUpperCase(),nome:m[2]};
+  if((m=l.match(/^([A-G])\s*[-–:.)]\s*(.*)$/)))return {key:m[1],nome:m[2]};
+  if((m=l.match(/^([A-G])$/)))return {key:m[1],nome:""};
+  if((m=nz(l).match(/^(segunda|terca|quarta|quinta|sexta|sabado)(?: feira)?\b\s*(.*)$/))){const rest=l.replace(/^\S+(?:-feira)?\s*/i,"");return {key:"",nome:rest,dia:WDM[m[1]]}}
+  if((m=l.match(/^treino\b\s*[-–:.]*\s*(.*)$/i)))return {key:"",nome:m[1]};
+  if(/:\s*$/.test(l)&&l.length<=50)return {key:"",nome:l.replace(/:\s*$/,"")};
+  return null};
+ const SKIP=/^(obs|observa|nota|aten[cç]|dica|aquecimento|alongamento|cardio|total|semana|meso|periodiza|objetivo|aluna|nome|descanso|desc\b|intervalo)/i;
+ for(const l0 of lines){
+  const l=l0.replace(/^\s*(?:[-•*–·▪●]|\d{1,2}\s*[.)]\s|\d{1,2}\s*[-–]\s)\s*/,"");
+  if(!hasSets(l)&&!l.includes("\t")){const h=hdr(l);if(h){newDay(h.nome,h.key,h.dia);continue}}
+  if(SKIP.test(l))continue;
+  let name="",sets=0,reps="",load=0,rest=0;
+  if(l.includes("\t")){const c=l.split("\t").map(x=>x.trim());if(c.length>=3&&/^\d{1,2}$/.test(c[1])){name=c[0];sets=+c[1];reps=c[2].replace(/\s+/g,"");load=parseFloat(String(c[3]||"").replace(",","."))||0}}
+  if(!name){
+   let idx=-1,len=0;
+   for(const R of SETS_RX){const m=l.match(R);if(m){sets=+m[1];reps=m[2].replace(/\s*(?:a|à|até|ate|–)\s*/i,"-").replace(/\s+/g,"");idx=m.index;len=m[0].length;break}}
+   const ld=l.match(/(\d+(?:[.,]\d+)?)\s*kg\b/i)||l.match(/@\s*(\d+(?:[.,]\d+)?)/);if(ld)load=parseFloat(ld[1].replace(",","."))||0;
+   const rs=l.match(/(?:desc(?:anso)?|rest|interv(?:alo)?)\s*[:\-]?\s*(\d+)\s*(min|m\b|'|s\b|seg)?/i);
+   if(rs){rest=+rs[1];if(/^(min|m|')$/i.test(rs[2]||"")||(!rs[2]&&rest<=5))rest*=60}
+   else if(sets){const r2=l.match(/(?:^|[\s\-–,(])(\d{2,3})\s*(?:s|seg)\b/i);if(r2)rest=+r2[1]}
+   if(!sets&&(l.length>48||/\b(desc|obs|min|seg)\b/i.test(l)||/\d/.test(l)&&l.length>28))continue;
+   name=idx>=0?l.slice(0,idx):l;if(idx>=0&&!/[A-Za-zÀ-ú]{2}/.test(name))name=l.slice(idx+len);
+   if(ld)name=name.replace(ld[0],"");if(rs)name=name.replace(rs[0],"");name=clean(name)}
+  name=clean(name);if(!/[A-Za-zÀ-ú]{2}/.test(name)||name.length>60)continue;
+  if(!cur)newDay("","A");
+  cur.exs.push({name,sets:sets||3,reps:reps||"10",rest,load,sem:!sets})}
+ const out=days.filter(d=>d.exs.length);const used=new Set(out.map(d=>d.key).filter(Boolean));
+ out.forEach(d=>{if(!d.key){const L=[..."ABCDEFG"].find(x=>!used.has(x));d.key=L;used.add(L)}});
+ return out};
+const DEMO_IMP=`Treino A - Quadríceps e glúteo
+Agachamento livre 4x8-10 60kg
+Leg press 45 3x12 140kg
+Cadeira extensora 3x15 40kg
+Hip thrust 4x10 80kg desc 90s
+
+Treino B - Costas e bíceps
+Puxada frontal 4x10-12 45kg
+Remada curvada 4x10 40kg
+Remada cavalinho 3x12
+Rosca direta 3x12 15kg
+
+Treino C - Posterior
+Stiff c/ barra 4x10 50kg
+Mesa flexora 3x12 35kg
+Panturrilha em pé 4x15`;
+function ExPicker({vids,onAdd,onClose}){
+ const [q,setQ]=useState(""),[g,setG]=useState("Todos"),[sel,setSel]=useState([]),[extra,setExtra]=useState([]),[df,setDf]=useState({sets:"3",reps:"10",rest:"60"});
+ const all=[...vids,...extra],qn=nz(q);
+ const grps=["Todos",...[...new Set(all.map(v=>grpOf(v.nome)))].sort((a,b)=>(a==="Outros")-(b==="Outros")||a.localeCompare(b,"pt"))];
+ const list=all.filter(v=>(g==="Todos"||grpOf(v.nome)===g)&&(!qn||nz(v.nome).includes(qn))).sort((a,b)=>a.nome.localeCompare(b.nome,"pt"));
+ const exact=qn&&all.some(v=>nz(v.nome)===qn);
+ const tog=id=>setSel(s=>s.includes(id)?s.filter(x=>x!==id):[...s,id]);
+ const create=()=>{const it={id:"v"+Date.now(),nome:tcase(q),link:""};setExtra(e=>[...e,it]);setSel(s=>[...s,it.id]);setQ("")};
+ const chosen=sel.map(id=>all.find(v=>v.id===id)).filter(Boolean);
+ return <Modal onClose={onClose}><div className="flex items-center justify-between mb-3"><div><div className="text-lg font-light">Banco de exercícios</div><div className="text-[11px] text-[#71717A]">Toque para escolher um ou vários</div></div><button aria-label="Fechar" onClick={onClose} className="text-[#71717A] hover:text-white"><Ic n="X" s={18}/></button></div>
+  <input placeholder="Buscar exercício…" value={q} onChange={e=>setQ(e.target.value)} className="w-full"/>
+  <div className="flex gap-1.5 overflow-x-auto py-2.5 -mx-1 px-1">{grps.map(x=><button key={x} onClick={()=>setG(x)} className={"shrink-0 h-8 px-3 rounded-full border text-xs "+(g===x?"bg-[#8E0000] border-[#8E0000] text-white":"border-[#36363d] text-[#a1a1aa]")}>{x}</button>)}</div>
+  <div className="overflow-y-auto -mx-1 px-1 space-y-1.5" style={{maxHeight:"36dvh"}}>
+   {q.trim()&&!exact&&<button onClick={create} className="w-full flex items-center gap-2.5 rounded-xl border border-dashed border-[#8E0000]/70 px-3 h-11 text-sm text-left text-white"><Ic n="Plus" s={16}/>Criar “{tcase(q)}” no banco</button>}
+   {list.length===0&&!q.trim()&&<p className="text-sm text-[#71717A] text-center py-4">Nenhum exercício nesse grupo.</p>}
+   {list.map(v=>{const i=sel.indexOf(v.id),on=i>=0;return <button key={v.id} onClick={()=>tog(v.id)} aria-pressed={on} className={"w-full flex items-center gap-2.5 rounded-xl border px-3 h-12 text-left "+(on?"border-[#8E0000] bg-[#8E0000]/15":"border-[#303036]")}>
+    <span className={"w-6 h-6 shrink-0 rounded-full border text-[11px] flex items-center justify-center "+(on?"bg-[#8E0000] border-[#8E0000] text-white":"border-[#52525b] text-transparent")}>{on?i+1:"·"}</span>
+    <span className="flex-1 min-w-0"><span className="block text-sm text-white truncate">{v.nome}</span><span className="block text-[10px] text-[#71717A]">{grpOf(v.nome)}{v.link?" · com vídeo":" · sem vídeo"}</span></span></button>})}</div>
+  <div className="mt-3 grid grid-cols-3 gap-2 text-[11px] text-[#71717A]">{[["sets","Séries"],["reps","Reps"],["rest","Descanso (s)"]].map(([k,l])=><label key={k}>{l}<input value={df[k]} inputMode={k==="reps"?"text":"numeric"} onChange={e=>setDf({...df,[k]:e.target.value})} className="w-full mt-1 h-10 text-center text-base text-white !rounded-xl"/></label>)}</div>
+  <Btn className="w-full mt-3" disabled={!chosen.length} onClick={()=>onAdd(chosen,df,extra.filter(x=>sel.includes(x.id)))}><Ic n="Plus" s={16}/>{chosen.length?"Adicionar "+chosen.length+(chosen.length===1?" exercício":" exercícios"):"Escolha os exercícios"}</Btn></Modal>}
+function ImportTreino({vids,onApply,onClose}){
+ const [txt,setTxt]=useState(""),[res,setRes]=useState(null),[mode,setMode]=useState("rep"),[sv,setSv]=useState(true),[err,setErr]=useState("");
+ const run=()=>{const ds=parseTreino(txt);if(!ds.length){setErr("Não encontrei exercícios nesse texto. Cada exercício precisa estar em uma linha, de preferência com as séries, ex.: Agachamento 4x10.");return}
+  ds.forEach(d=>d.exs.forEach(e=>{const m=matchBank(e.name,vids);e.bname=m?m.nome:"";e.link=m?m.link:""}));setErr("");setRes(ds.slice(0,6))};
+ const upd=(i,f)=>setRes(r=>r.map((d,k)=>k===i?{...d,...f}:d));
+ const delEx=(i,j)=>setRes(r=>r.map((d,k)=>k===i?{...d,exs:d.exs.filter((_,x)=>x!==j)}:d).filter(d=>d.exs.length));
+ const n=(res||[]).reduce((t,d)=>t+d.exs.length,0),nNew=(res||[]).reduce((t,d)=>t+d.exs.filter(e=>!e.bname).length,0);
+ return <Modal onClose={onClose}><div className="flex items-center justify-between mb-3"><div className="text-lg font-light">Importar treino</div><button aria-label="Fechar" onClick={onClose} className="text-[#71717A] hover:text-white"><Ic n="X" s={18}/></button></div>
+  {!res?<div className="space-y-3">
+   <p className="text-[13px] text-[#a1a1aa] leading-snug">Cole aqui o treino da aluna, do app antigo, do WhatsApp ou das suas anotações. Eu separo por dia e exercício, e procuro cada um no seu banco.</p>
+   <textarea rows={9} value={txt} onChange={e=>{setTxt(e.target.value);setErr("")}} placeholder={"Treino A - Quadríceps\nAgachamento livre 4x8-10 60kg\nLeg press 3x12 140kg\n\nTreino B - Costas\nPuxada frontal 4x10 45kg"} className="w-full resize-none text-sm text-white"/>
+   {err&&<p role="alert" className="text-[12px] text-[#EF3347] leading-snug">{err}</p>}
+   <p className="text-[11px] text-[#71717A] leading-snug">Dica no iPhone: abra o print ou a foto do treino, toque e segure no texto, selecione tudo e copie. Depois cole aqui. Aceita também linhas copiadas de uma planilha (exercício, séries, reps, carga).</p>
+   <div className="grid grid-cols-2 gap-2"><Btn ghost onClick={()=>{setTxt(DEMO_IMP);setErr("")}}>Usar exemplo</Btn><Btn disabled={!txt.trim()} className="disabled:opacity-40" onClick={run}>Analisar</Btn></div></div>
+  :<div className="space-y-3">
+   <p className="text-[13px] text-[#a1a1aa] leading-snug">{n} {n===1?"exercício":"exercícios"} em {res.length} {res.length===1?"dia":"dias"}. Confira e remova o que não for treino. Depois de importar, dá para ajustar tudo no Montador.</p>
+   <div className="space-y-3 overflow-y-auto" style={{maxHeight:"38dvh"}}>{res.map((d,i)=><div key={i} className="rounded-2xl border border-[#303036] p-3">
+    <div className="flex items-center gap-2"><span className="w-8 h-8 shrink-0 rounded-full bg-[#8E0000] text-white text-sm flex items-center justify-center">{d.key}</span><input aria-label="Nome do treino" value={d.nome} onChange={e=>upd(i,{nome:e.target.value})} placeholder={"Treino "+d.key} className="flex-1 min-w-0 h-9 !px-2.5 !py-0 text-sm text-white !rounded-lg"/></div>
+    <div className="mt-2 space-y-1.5">{d.exs.map((e,j)=><div key={j} className="flex items-center gap-2 text-sm"><div className="flex-1 min-w-0"><div className="truncate text-white">{e.bname||tcase(e.name)}</div><div className="text-[11px] text-[#8a8a93]">{e.sets}×{e.reps}{e.load?" · "+String(e.load).replace(".",",")+" kg":""}{e.rest?" · desc "+e.rest+"s":""}{e.sem?" · séries padrão":""}</div></div>
+     <span className={"shrink-0 text-[10px] rounded-full border px-2 py-0.5 "+(e.bname?"border-[#22c55e]/50 text-[#86efac]":"border-[#f59e0b]/50 text-[#fcd34d]")}>{e.bname?"No banco":"Novo"}</span>
+     <button aria-label={"Remover "+e.name} onClick={()=>delEx(i,j)} className="shrink-0 w-7 h-7 text-[#71717A] hover:text-white flex items-center justify-center"><Ic n="X" s={15}/></button></div>)}</div></div>)}</div>
+   <div className="space-y-1.5">{[["rep","Substituir o treino atual"],["add","Acrescentar ao que já existe"]].map(([k,l])=><button key={k} onClick={()=>setMode(k)} className={"w-full flex items-center gap-2.5 rounded-xl border px-3 h-10 text-[13px] text-left "+(mode===k?"border-[#8E0000]/70 text-white":"border-[#36363d] text-[#a1a1aa]")}><span className={"w-4 h-4 rounded-full border flex items-center justify-center "+(mode===k?"bg-[#8E0000] border-[#8E0000]":"border-[#52525b]")}>{mode===k&&<Ic n="Check" s={11}/>}</span>{l}</button>)}
+    {nNew>0&&<button onClick={()=>setSv(!sv)} className={"w-full flex items-center gap-2.5 rounded-xl border px-3 h-10 text-[13px] text-left "+(sv?"border-[#8E0000]/70 text-white":"border-[#36363d] text-[#a1a1aa]")}><span className={"w-4 h-4 rounded-md border flex items-center justify-center "+(sv?"bg-[#8E0000] border-[#8E0000]":"border-[#52525b]")}>{sv&&<Ic n="Check" s={11}/>}</span>Salvar os {nNew} novos no banco de exercícios</button>}</div>
+   <div className="grid grid-cols-[auto_1fr] gap-2"><Btn ghost className="!px-5" onClick={()=>setRes(null)}>Voltar</Btn><Btn disabled={!n} className="disabled:opacity-40" onClick={()=>onApply(res,mode,sv)}>Importar {n} {n===1?"exercício":"exercícios"}</Btn></div></div>}</Modal>}
+
+const LGPD_V="2026-11";
+const LGPD_SEC=[
+["Quem cuida dos seus dados","A Team Corrêa · Consultoria Online, por meio do seu treinador, é a controladora: decide como seus dados são usados. Para qualquer pedido sobre eles, fale com seu treinador pelo WhatsApp (botão em Você)."],
+["Quais dados coletamos","Nome, e-mail e dados do plano e do pagamento. Também dados de saúde e do corpo que você informa: fotos de acompanhamento (frente, costas e perfil), medidas, cargas e execução dos treinos, respostas dos check-ins e observações sobre lesões ou desconforto. Dados de saúde são dados pessoais sensíveis."],
+["Para que usamos","Somente para montar, ajustar e acompanhar o seu treino, controlar o seu plano e conversar com você sobre o acompanhamento. Não vendemos seus dados e não os usamos para publicidade de terceiros."],
+["Base legal","O seu consentimento (LGPD, arts. 7º, I e 11, I) para os dados de saúde e fotos, e a execução do contrato da consultoria para os dados do plano."],
+["Quem vê","Seu treinador e você. Suas fotos não aparecem para outras alunas. Usamos serviços de hospedagem e armazenamento seguros (Supabase e Vercel), que só tratam os dados para nos prestar o serviço. Não publicamos suas fotos sem uma autorização separada."],
+["Por quanto tempo","Enquanto o seu plano estiver ativo e pelo tempo necessário para cumprir obrigações legais. Depois disso, ou se você pedir, apagamos ou anonimizamos os dados."],
+["Seus direitos (art. 18)","Você pode a qualquer momento: confirmar que tratamos seus dados, acessar e baixar uma cópia, corrigir, pedir exclusão, revogar o consentimento e pedir informações sobre compartilhamento. Em Você → Privacidade e dados, você baixa seus dados e pede a exclusão pelo app. Responderemos em até 15 dias."],
+["Menores de idade","O uso por menores de 18 anos exige a autorização de um responsável legal."],
+["Segurança e incidentes","Os dados ficam em ambiente protegido, com acesso restrito por login. Se houver incidente com risco a você, avisaremos você e a autoridade (ANPD), como a lei determina."]];
+function LgpdDoc(){return <div className="space-y-3.5">{LGPD_SEC.map(([t,x],i)=><div key={i}><div className="text-[13px] font-medium">{i+1}. {t}</div><p className="text-[13px] text-[#a1a1aa] leading-snug mt-1">{x}</p></div>)}<p className="text-[11px] text-[#71717A]">Versão {LGPD_V}</p></div>}
+function LgpdModal({onClose}){return <Modal onClose={onClose}><div className="text-lg font-semibold">Política de Privacidade</div><div className="mt-3"><LgpdDoc/></div><Btn className="w-full mt-4" onClick={onClose}>Entendi</Btn></Modal>}
+const Chk=({on,set,children})=><button type="button" role="checkbox" aria-checked={on} onClick={()=>set(!on)} className="w-full flex items-start gap-3 text-left"><span className={"mt-0.5 w-5 h-5 shrink-0 rounded-md border flex items-center justify-center "+(on?"bg-[#8E0000] border-[#8E0000] text-white":"border-[#4a4a52]")}>{on&&<Ic n="Check" s={14}/>}</span><span className="text-[13px] leading-snug text-[#d4d4d8]">{children}</span></button>;
+function LgpdGate({name,onOk,logout}){const [a,setA]=useState(false),[b,setB]=useState(false),[c,setC]=useState(false),[d,setD]=useState(false);
+ return <div className="space-y-5 py-4"><div><Ic n="ShieldCheck" s={34} c="text-[#E04458]"/><h1 className="text-2xl font-semibold mt-3">Sua privacidade{name?`, ${name.split(" ")[0]}`:""}</h1><p className="text-sm text-[#a1a1aa] mt-2 leading-snug">Para acompanhar seu treino, o app guarda dados seus, incluindo saúde e fotos. Leia e confirme abaixo, como pede a LGPD (Lei 13.709/2018).</p></div>
+ <button onClick={()=>setD(!d)} className="w-full flex items-center justify-between bg-[#212126] border border-[#303036] rounded-2xl px-3.5 py-3 text-sm"><span>Ler a Política de Privacidade</span><span className={"text-[#8a8a93] transition-transform "+(d?"rotate-180":"")}><Ic n="ChevronDown" s={16}/></span></button>
+ {d&&<Card><LgpdDoc/></Card>}
+ <Card className="space-y-3.5"><Chk on={a} set={setA}>Tenho 18 anos ou mais, ou tenho autorização do meu responsável legal.</Chk><Chk on={b} set={setB}>Li e concordo com a Política de Privacidade.</Chk><Chk on={c} set={setC}>Autorizo o tratamento dos meus dados de saúde, medidas e fotos corporais para a montagem e o acompanhamento do meu treino.</Chk></Card>
+ <Btn className="w-full" disabled={!(a&&b&&c)} onClick={()=>onOk({v:LGPD_V,ts:new Date().toISOString(),saude:true,fotos:true})}>Aceitar e continuar</Btn>
+ <p className="text-[11px] text-[#71717A] text-center leading-snug">Você pode baixar seus dados, pedir a exclusão ou revogar o consentimento depois, em Você → Privacidade e dados.</p>
+ {logout&&<button onClick={logout} className="w-full text-sm text-[#8a8a93] py-2">Sair</button>}</div>}
+function PrivSec({st,db,set,toast,H2,GP,RW}){const [pol,setPol]=useState(false),[del,setDel]=useState(false);
+ const dl=()=>{try{const id=st.id,out={exportado_em:new Date().toISOString(),aluna:{nome:st.name,email:st.email||null,plano:st.plan,adquirido:st.buy,mesociclo:st.meso,semana:st.week,consentimento:st.lgpd||null,historico:st.hist,observacoes:st.fb||null,checkins:st.ci||[],pagamento:st.pay||null,fotos:(st.photos||[]).map(x=>({posicao:x.pos,mesociclo:x.meso,data:x.d}))},treinos:db.w[id]||{},dias:db.meta[id]||{},cardio:(db.cardio||{})[id]||[],sessoes:(db.sessions||[]).filter(x=>x.sid===id)};
+  const bl=new Blob([JSON.stringify(out,null,2)],{type:"application/json"}),u=URL.createObjectURL(bl),a=document.createElement("a");a.href=u;a.download="meus-dados-team-correa.json";document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),2000);toast("Seus dados foram baixados")}catch(e){toast("Não foi possível baixar agora")}};
+ const ask=()=>{set(d=>({...d,students:d.students.map(x=>x.id===st.id?{...x,delReq:{ts:new Date().toISOString()},hist:["Pedido de exclusão de dados enviado · "+fd(TODAY),...(x.hist||[])]}:x)}));setDel(false);toast("Pedido enviado ao seu treinador")};
+ return <div><H2>Privacidade e dados</H2><GP>
+  <RW i="ShieldCheck" t="Consentimento" d={st.lgpd?"Aceito em "+fd(new Date(st.lgpd.ts))+" · versão "+st.lgpd.v:"Pendente"}/>
+  <RW i="FileText" t="Política de Privacidade" d="Como seus dados são usados" go={()=>setPol(true)}/>
+  <RW i="Download" t="Baixar meus dados" d="Uma cópia em arquivo" go={dl}/>
+  <RW i="Trash2" t={st.delReq?"Exclusão solicitada":"Pedir exclusão dos meus dados"} d={st.delReq?"Pedido enviado em "+fd(new Date(st.delReq.ts))+" · seu treinador vai responder":"Encerra seu acesso e apaga seus dados"} go={st.delReq?undefined:()=>setDel(true)}/></GP>
+  {pol&&<LgpdModal onClose={()=>setPol(false)}/>}
+  {del&&<Modal onClose={()=>setDel(false)}><div className="text-lg font-semibold">Pedir exclusão dos dados?</div><p className="text-sm text-[#a1a1aa] mt-2 leading-snug">Seu treinador será avisado, vai apagar seus dados e encerrar seu acesso em até 15 dias. Você perde o treino e o histórico do app. Se você só quer revogar um consentimento, fale com ele antes.</p><div className="grid grid-cols-2 gap-2 mt-4"><Btn ghost onClick={()=>setDel(false)}>Cancelar</Btn><Btn onClick={ask}>Enviar pedido</Btn></div></Modal>}</div>}
 function Login({db,onLogin}){
  const [r,setR]=useState("a");const [em,setEm]=useState("");const [pw,setPw]=useState("");const [sh,setSh]=useState(false);const [er,setEr]=useState("");const [ok,setOk]=useState("");const [keep,setKeep]=useState(true);
  const pick=k=>{setR(k);setEr("");setOk("")};
@@ -1064,7 +1233,7 @@ function Waiting({st}){const T=iso(TODAY),late=T>st.dlv;return <div className="m
  <img src={MARK} alt="" className="h-16 mx-auto"/>
  <h1 className="text-3xl font-semibold mt-6">Estamos montando o seu treino</h1>
  <p className="text-sm text-[#a1a1aa] mt-2 leading-relaxed">Você já tem acesso ao app. O seu treino aparece aqui assim que for entregue. {late?"Estamos finalizando — falta pouco!":"O prazo é de até 7 dias após o pagamento: até "+fd(dt(st.dlv))+"."}</p>
- <Card className="mt-7 text-left">{[["Pagamento confirmado","Plano "+st.plan+" · "+fd(dt(st.buy)),true],["Treino em montagem","Sua treinadora está preparando tudo para você",false],["Treino disponível","Ele aparece aqui no app assim que for entregue",false]].map(([t,d,ok],i)=><div key={i} className={"flex items-start gap-3 py-3 "+(i?"border-t border-[#2c2c32]":"")}><span className={"w-6 h-6 shrink-0 rounded-full flex items-center justify-center mt-0.5 "+(ok?"bg-[#22c55e] text-black":i===1?"border border-[#E04458] text-[#E04458]":"border border-[#4a4a52] text-[#52525b]")}>{ok?<Ic n="Check" s={14}/>:<span className="text-[11px]">{i+1}</span>}</span><div><div className={"text-[15px] "+(i===2?"text-[#71717A]":"")}>{t}</div><div className="text-xs text-[#71717A] mt-0.5">{d}</div></div></div>)}</Card>
+ <Card className="mt-7 text-left">{[["Pagamento confirmado","Plano "+st.plan+" · "+fd(dt(st.buy)),true],["Treino em montagem","Seu treinador está preparando tudo para você",false],["Treino disponível","Ele aparece aqui no app assim que for entregue",false]].map(([t,d,ok],i)=><div key={i} className={"flex items-start gap-3 py-3 "+(i?"border-t border-[#2c2c32]":"")}><span className={"w-6 h-6 shrink-0 rounded-full flex items-center justify-center mt-0.5 "+(ok?"bg-[#22c55e] text-black":i===1?"border border-[#E04458] text-[#E04458]":"border border-[#4a4a52] text-[#52525b]")}>{ok?<Ic n="Check" s={14}/>:<span className="text-[11px]">{i+1}</span>}</span><div><div className={"text-[15px] "+(i===2?"text-[#71717A]":"")}>{t}</div><div className="text-xs text-[#71717A] mt-0.5">{d}</div></div></div>)}</Card>
  <p className="text-xs text-[#71717A] mt-5">Seu plano passa a contar a partir da segunda-feira da entrega.</p></div>}
 function App(){
  const [db,set]=useState(REAL?()=>joinDb([],null):init);const [auth,setAuth]=useState(null);const [role,setRole]=useState("t");const [nA,setNA]=useState(false);const [mOpen,setMOpen]=useState(false);const [,tick]=useState(0);const simDay=i=>{TODAY=new Date(2026,10,9+i);tick(x=>x+1)};const [fgo,setFgo]=useState(null);const [sid0,setSid]=useState(1);const [tab,setTab]=useState("dash");const [msg,setMsg]=useState("");
