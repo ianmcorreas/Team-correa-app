@@ -18,16 +18,18 @@
    Deixe vazio para rodar em MODO DEMONSTRAÇÃO (dados fictícios, sem login real). */
 window.SUPA_CFG={url:"https://lfdqpsdmjpusgojowiso.supabase.co",key:"sb_publishable_5-fRMIM99mtt5ONoS5civw_J3vLfKwd"};
 </script>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.7/dist/umd/supabase.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.7/dist/umd/supabase.js" crossorigin="anonymous"></script>
 <script src="https://cdn.tailwindcss.com/3.4.17"></script>
-<script src="https://cdn.jsdelivr.net/npm/react@18.3.1/umd/react.production.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/lucide@0.383.0/dist/umd/lucide.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@babel/standalone@7.24.7/babel.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/lucide@0.383.0/dist/umd/lucide.min.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@babel/standalone@7.24.7/babel.min.js" crossorigin="anonymous"></script>
 <script>
 (function(){var shown=false;function show(m){if(shown)return;shown=true;var d=document.createElement("div");d.style.cssText="position:fixed;inset:0;z-index:2147483647;background:#18181B;color:#fff;padding:24px;font:14px/1.5 system-ui,sans-serif;overflow:auto";d.innerHTML='<div style="font-size:20px;font-weight:600;margin-bottom:8px">Não foi possível abrir o app</div><div style="color:#a1a1aa;margin-bottom:12px">Toque em recarregar. Se continuar, mande um print desta tela.</div><button onclick="location.reload()" style="background:#8E0000;color:#fff;border:0;border-radius:999px;padding:10px 20px;font-size:14px">Recarregar</button><pre style="white-space:pre-wrap;color:#EF6A78;margin-top:16px;font-size:12px"></pre>';d.querySelector("pre").textContent=String(m).slice(0,900);document.body.appendChild(d)}
-window.addEventListener("error",function(e){show((e.message||"erro")+(e.filename?" @"+e.filename.split("/").pop()+":"+e.lineno:""))});
-window.addEventListener("unhandledrejection",function(e){show("promessa: "+(e.reason&&e.reason.message||e.reason))});
+var errs=[];function vazio(){var r=document.getElementById("root");return !r||!r.children.length}
+function reg(m){errs.push(m);setTimeout(function(){if(vazio())show(errs.join("\n\n")+"\n\n"+navigator.userAgent)},4000)}
+window.addEventListener("error",function(e){if(e.target&&e.target.src&&!e.message){reg("não carregou: "+e.target.src);return}var st=e.error&&e.error.stack?"\n"+String(e.error.stack).slice(0,400):"";reg((e.message||"erro")+(e.filename?" @"+e.filename.split("/").pop()+":"+e.lineno:"")+st)},true);
+window.addEventListener("unhandledrejection",function(e){reg("promessa: "+(e.reason&&e.reason.message||e.reason))});
 setTimeout(function(){var r=document.getElementById("root");if(r&&!r.children.length)show("O app não iniciou em 25s (verifique a conexão com a internet e recarregue).")},25000)})();
 </script>
 <style>
