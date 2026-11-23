@@ -814,7 +814,7 @@ function Student({db,set,tab,toast,setTab,fgo,openN,nN,simDay,sid,setSid,logout}
  const cntP=k=>["Frente","Costas","Perfil"].filter(x=>st.photos.some(q=>q.meso===k&&q.pos===x)).length;
  const nots=[...[...Array(st.nm+1)].map((_,i)=>i+1).filter(k=>cpAv(k,st)&&cntP(k)<3).map(k=>({id:"f"+k,i:"Camera",t:"Hora de enviar suas fotos",d:cpLab(k,st.nm)+" · faltam "+(3-cntP(k))+" de 3",b:"Enviar",go:()=>{setFcp(k);setFOpen(true);setTab("evolucao")}})),...(st.days<=7?[{id:"r",i:"CalendarClock",t:st.days<0?"Seu plano venceu":"Seu plano renova em "+st.days+(st.days===1?" dia":" dias"),d:"Plano "+st.plan+" · "+st.renew,b:"Ver plano",go:()=>{setTab("plano")}}]:[])];
  if(tab==="home"){
-  const ti=(TODAY.getDay()+6)%7,missed=ordS.filter(k=>DIAS.indexOf((mtS[k]||{}).dia)<ti&&!doneD[k]),nextK=ordS.find(k=>DIAS.indexOf((mtS[k]||{}).dia)>ti)||ordS[0],kH=ordS.find(x=>(mtS[x]||{}).dia===hojeD),exH=kH?db.w[id][kH]:[],rodando=!!db.timer&&db.timer.day===kH;
+  const ti=(TODAY.getDay()+6)%7,missed=ordS.filter(k=>{const di=DIAS.indexOf((mtS[k]||{}).dia);return di>=0&&di<ti&&!doneD[k]}),nextK=ordS.find(k=>DIAS.indexOf((mtS[k]||{}).dia)>ti)||ordS[0],kH=ordS.find(x=>(mtS[x]||{}).dia===hojeD),exH=kH?db.w[id][kH]:[],rodando=!!db.timer&&db.timer.day===kH;
   const wk=DIAS.map((n,i)=>{const D=dt(iso(monOf(TODAY)),i);return {n,D,ok:db.sessions.some(x=>x.sid===id&&x.date===fd(D)),plan:ordS.some(k=>(mtS[k]||{}).dia===n),hoje:D.getTime()===TODAY.getTime()}});
   const cardH=(db.cardio[id]||[]).filter(c=>c.dias.includes(hojeD));
   return <div className="space-y-4">
@@ -835,7 +835,7 @@ function Student({db,set,tab,toast,setTab,fgo,openN,nN,simDay,sid,setSid,logout}
      <div className="grid grid-cols-3 gap-2 mt-5">{[["Droplets","Hidrate-se"],["BedDouble","Durma bem"],["Apple","Alimente-se"]].map(([i,l])=><div key={l} className="rounded-2xl bg-[#18181B]/60 border border-[#36363d] py-3 flex flex-col items-center gap-1.5 text-[11px] text-[#a1a1aa]"><span className="text-[#E04458]"><Ic n={i} s={18}/></span>{l}</div>)}</div>
      {nextK&&mtS[nextK]&&<div className="mt-4 text-xs text-[#8a8a93]">Próximo treino: <span className="text-white">{FULL[mtS[nextK].dia]} · {mtS[nextK].nome}</span></div>}</>}</Card>
    {!kH&&missed.length>0&&<Card><div className="flex items-center gap-2.5"><span className="w-9 h-9 shrink-0 rounded-full bg-[#8E0000]/20 text-[#E04458] flex items-center justify-center"><Ic n="RefreshCw" s={17}/></span><div><div className="text-sm font-medium">Compensar treino</div><div className="text-xs text-[#8a8a93] mt-0.5 leading-snug">Faltou algum treino esta semana? Se quiser, faça hoje. É opcional.</div></div></div>
-    <div className="mt-3 divide-y divide-[#303036]">{missed.map(k=><div key={k} className="py-2.5 flex items-center gap-3"><div className="min-w-0 flex-1"><div className="text-sm font-medium truncate">{mtS[k].nome}</div><div className="text-xs text-[#8a8a93] mt-0.5">Era de {FULL[mtS[k].dia].toLowerCase()}</div></div><Btn ghost className="!py-1.5 !px-3.5 text-xs shrink-0" onClick={()=>{setDay(k);setTab("treino")}}>Fazer hoje</Btn></div>)}</div></Card>}
+    <div className="mt-3 divide-y divide-[#303036]">{missed.map(k=><div key={k} className="py-2.5 flex items-center gap-3"><div className="min-w-0 flex-1"><div className="text-sm font-medium truncate">{(mtS[k]||{}).nome||"Treino "+k}</div><div className="text-xs text-[#8a8a93] mt-0.5">Era de {(FULL[(mtS[k]||{}).dia]||"outro dia").toLowerCase()}</div></div><Btn ghost className="!py-1.5 !px-3.5 text-xs shrink-0" onClick={()=>{setDay(k);setTab("treino")}}>Fazer hoje</Btn></div>)}</div></Card>}
    {cardH.length>0&&<button onClick={()=>{setTs("cardio");setTab("treino")}} className="hero w-full text-left border rounded-3xl px-4 py-3.5 flex items-center gap-3"><span className="w-10 h-10 shrink-0 rounded-full bg-gradient-to-br from-[#B3122A] to-[#8E0000] text-white flex items-center justify-center"><Ic n="HeartPulse" s={19}/></span>
     <div className="flex-1 min-w-0"><div className="text-sm font-medium">Cardio de hoje</div><div className={"text-xs mt-0.5 truncate "+(cardH.every(c=>c.ok)?"text-[#22c55e]":"text-[#8a8a93]")}>{cardH.every(c=>c.ok)?"Concluído":cardH.map(c=>c.modal+" "+c.dur+" min").join(" · ")}</div></div><span className="text-[#52525b]"><Ic n="ChevronRight" s={16}/></span></button>}
    <Card><div className="flex items-center justify-between"><Lbl>Semana</Lbl><span className="text-xs text-[#71717A]">{wk.filter(x=>x.ok).length} de {ordS.length} treinos</span></div>
@@ -866,7 +866,7 @@ function Student({db,set,tab,toast,setTab,fgo,openN,nN,simDay,sid,setSid,logout}
      <div className="text-sm text-[#71717A] mt-0.5">{c.dur} min · {c.int}</div>
      <div className="flex flex-wrap gap-1.5 mt-2">{c.dias.map(d=><span key={d} className="text-[11px] text-[#a1a1aa] border border-[#33333a] rounded-md px-2 py-0.5">{d}</span>)}</div>
      {c.obs&&<div className="flex gap-1.5 mt-2 text-xs text-zinc-400 leading-snug"><span className="shrink-0 mt-0.5"><Ic n="Info" s={13}/></span>{c.obs}</div>}</div></div></Card>)}</div>})():<>
-  {mtS[day]&&<div><div className="text-[11px] uppercase tracking-[0.14em] text-[#E04458]">{FULL[mtS[day].dia]}{st.dl?" · Deload":""}</div><div className="text-2xl font-semibold leading-tight mt-0.5">{mtS[day].nome}</div>
+  {mtS[day]&&<div><div className="text-[11px] uppercase tracking-[0.14em] text-[#E04458]">{FULL[(mtS[day]||{}).dia]||""}{st.dl?" · Deload":""}</div><div className="text-2xl font-semibold leading-tight mt-0.5">{(mtS[day]||{}).nome||"Treino "+day}</div>
    <div className="text-xs text-[#8a8a93] mt-1">{exs.filter(e=>e.ok).length} de {exs.length} feitos</div>
    <div className="flex gap-1 mt-2.5">{exs.map(e=><i key={e.id} className="h-1 flex-1 rounded-full transition-colors" style={{background:e.ok?"linear-gradient(90deg,#B3122A,#E04458)":"#0C0C0F"}}/>)}</div></div>}
   <div className="sticky top-[60px] z-20">{going?<div className="flex items-center justify-between rounded-2xl bg-[#212126]/95 backdrop-blur border border-[#8E0000]/60 pl-4 pr-2 py-2"><div className="text-xl font-light tabular-nums">{fmtT(el)}</div><Btn onClick={finish}><Ic n="Square" s={14}/>Encerrar</Btn></div>
@@ -1338,7 +1338,17 @@ function App(){
    <div className="divide-y divide-[#303036]">{nl.map(n=><div key={n.id} className="py-3 flex items-center gap-3"><span className="w-10 h-10 shrink-0 rounded-full bg-[#8E0000]/20 text-[#E04458] flex items-center justify-center"><Ic n={n.i} s={18}/></span><div className="flex-1 min-w-0"><div className="text-sm font-medium">{n.t}</div><div className="text-xs text-[#a1a1aa] mt-0.5">{n.d}</div></div><Btn className="!py-1.5 !px-3 text-xs shrink-0" onClick={()=>{setNA(false);if(n.k)setFgo({k:n.k,t:Date.now()});setTab(n.to)}}>{n.b}</Btn></div>)}</div></Modal>}
   {msg&&<div className="fixed left-1/2 -translate-x-1/2 bottom-28 md:bottom-8 z-50 bg-[#212126] border border-[#8E0000] glow text-sm px-4 py-2.5 rounded-full whitespace-nowrap">{msg}</div>}
  </div>}
-ReactDOM.createRoot(document.getElementById("root")).render(<App/>);
+class EB extends React.Component{constructor(p){super(p);this.state={e:null,info:""}}
+ static getDerivedStateFromError(e){return {e}}
+ componentDidCatch(e,i){this.setState({info:(i&&i.componentStack||"").trim().split("\n").slice(0,6).join("\n")})}
+ render(){const e=this.state.e;if(!e)return this.props.children;
+  const txt=String(e&&e.message||e)+"\n\n"+String(e&&e.stack||"").split("\n").slice(0,4).join("\n")+"\n\n"+this.state.info+"\n\n"+navigator.userAgent;
+  return <div style={{padding:24,color:"#fff"}}><div style={{fontSize:20,fontWeight:600,marginBottom:8}}>Ops, algo deu errado</div>
+   <div style={{color:"#a1a1aa",marginBottom:12,fontSize:14}}>Tire um print desta tela e mande para o seu treinador.</div>
+   <div style={{display:"flex",gap:8}}><button onClick={()=>location.reload()} style={{background:"#8E0000",color:"#fff",border:0,borderRadius:999,padding:"10px 20px",fontSize:14}}>Recarregar</button>
+   <button onClick={async()=>{try{if(sb)await sb.auth.signOut()}catch(_){}location.reload()}} style={{background:"transparent",color:"#a1a1aa",border:"1px solid #3a3a40",borderRadius:999,padding:"10px 20px",fontSize:14}}>Sair</button></div>
+   <pre style={{whiteSpace:"pre-wrap",color:"#EF6A78",marginTop:16,fontSize:11}}>{txt.slice(0,1500)}</pre></div>}}
+ReactDOM.createRoot(document.getElementById("root")).render(<EB><App/></EB>);
 </script>
 </body>
 </html>
