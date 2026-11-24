@@ -260,21 +260,21 @@ function AcessoCard({st,db,set,toast}){const [ed,setEd]=useState(false),[em,setE
    <div className="flex items-center gap-2.5 mt-2"><span className="text-[#8a8a93]"><Ic n="KeyRound" s={16}/></span><span className="text-sm text-[#a1a1aa]">Senha criada pela aluna (não fica visível)</span></div>
    <div className="grid grid-cols-2 gap-2 mt-4"><Btn ghost className="!px-2 text-xs" disabled={bz} onClick={reset}><Ic n="RotateCcw" s={14}/>{bz?"Enviando…":"Redefinir senha"}</Btn><Btn ghost className="!px-2 text-xs" onClick={copiar}><Ic n="Copy" s={14}/>Copiar acesso</Btn></div>
    <p className="text-xs text-[#8a8a93] mt-2.5 leading-snug">"Redefinir senha" manda para o e-mail dela um link para criar uma senha nova.</p></div>}</Card>}
-function CargasModal({st,db,set,toast,onClose}){const id=st.id,cw=Math.max(1,(st.meso-1)*4+st.week),mt=db.meta[id]||{},ks=ordK(db.w[id],mt);
- const [dk,setDk]=useState(ks[0]||"");const [dr,setDr]=useState(()=>{const o={};ks.forEach(k=>((db.w[id]||{})[k]||[]).forEach(e=>{o[e.id]=Array.from({length:cw},(_,i)=>{const v=(e.hist||[])[i];return v==null?"":String(v).replace(".",",")})}));return o});
+function CargasModal({st,db,set,toast,onClose}){const id=st.id,cw=Math.max(1,(st.meso-1)*4+st.week),tot=Math.max(4,st.meso*4),mt=db.meta[id]||{},ks=ordK(db.w[id],mt);
+ const [dk,setDk]=useState(ks[0]||"");const [dr,setDr]=useState(()=>{const o={};ks.forEach(k=>((db.w[id]||{})[k]||[]).forEach(e=>{o[e.id]=Array.from({length:tot},(_,i)=>{const v=i<cw?(e.hist||[])[i]:(e.pre||{})[i];return v==null?"":String(v).replace(".",",")})}));return o});
  const exs=((db.w[id]||{})[dk]||[]);
  const ch=(eid,i,v)=>setDr(o=>({...o,[eid]:o[eid].map((x,j)=>j===i?v.replace(/[^0-9.,]/g,""):x)}));
  const salvar=()=>{const toN=x=>{if(x===""||x==null)return null;const n=+String(x).replace(",",".");return isFinite(n)?n:null};
-  set(d=>({...d,w:{...d.w,[id]:Object.fromEntries(Object.entries(d.w[id]).map(([k,v])=>[k,v.map(e=>{const a=dr[e.id];if(!a)return e;const h=[...(e.hist||[])];while(h.length<cw)h.push(null);a.forEach((x,i)=>{h[i]=toN(x)});return {...e,hist:h}})]))},
+  set(d=>({...d,w:{...d.w,[id]:Object.fromEntries(Object.entries(d.w[id]).map(([k,v])=>[k,v.map(e=>{const a=dr[e.id];if(!a)return e;const h=[...(e.hist||[])];while(h.length<cw)h.push(null);const pre={};a.forEach((x,i)=>{const n=toN(x);if(i<cw)h[i]=n;else if(n!=null)pre[i]=n});const {pre:_p,...e2}=e;return Object.keys(pre).length?{...e2,hist:h,pre}:{...e2,hist:h}})]))},
    students:d.students.map(x=>x.id===id?{...x,hist:["Cargas anteriores registradas pelo treinador · "+fd(TODAY),...(x.hist||[])]}:x)}));toast("Cargas salvas");onClose()};
  return <Modal onClose={onClose}><div className="text-lg font-semibold">Cargas anteriores · {st.name.split(" ")[0]}</div>
   <p className="text-xs text-[#a1a1aa] mt-1 leading-snug">Preencha a maior carga (kg) de cada semana já feita. Deixe vazio o que não souber. Elas entram na evolução e nos comparativos.</p>
   <div className="flex gap-1.5 overflow-x-auto mt-3 pb-1" style={{scrollbarWidth:"none"}}>{ks.map(k=><button key={k} onClick={()=>setDk(k)} className={"shrink-0 rounded-full border px-3 py-1.5 text-xs "+(dk===k?"bg-[#8E0000] border-[#8E0000] text-white":"border-[#36363d] text-[#a1a1aa]")}>{k} · {((mt[k]||{}).nome||"Treino "+k).slice(0,16)}</button>)}</div>
   <div className="mt-3 max-h-[55vh] overflow-y-auto space-y-4 pr-1">{exs.length===0&&<p className="text-sm text-[#71717A] text-center py-4">Este treino não tem exercícios.</p>}
    {exs.map(e=><div key={e.id}><div className="text-sm font-medium">{e.name}</div>
-    {Array.from({length:Math.ceil(cw/4)},(_,m)=><div key={m} className="flex items-center gap-1.5 mt-1.5"><span className="w-9 shrink-0 text-[11px] text-[#8a8a93]">M{m+1}</span>
-     {Array.from({length:4},(_,w)=>{const i=m*4+w;return i<cw?<input key={w} aria-label={e.name+" mesociclo "+(m+1)+" semana "+(w+1)} inputMode="decimal" placeholder={"S"+(w+1)} value={(dr[e.id]||[])[i]||""} onChange={ev=>ch(e.id,i,ev.target.value)} className={"!w-0 flex-1 min-w-0 !px-1.5 !py-1.5 text-center text-sm !rounded-lg"+(i===cw-1?" !border-[#8E0000]/60":"")}/>:<span key={w} className="flex-1"/>})}</div>)}</div>)}</div>
-  <p className="text-[11px] text-[#71717A] mt-3">S1 a S4 = semanas do mesociclo. A borda vermelha é a semana atual.</p>
+    {Array.from({length:tot/4},(_,m)=><div key={m} className="flex items-center gap-1.5 mt-1.5"><span className="w-9 shrink-0 text-[11px] text-[#8a8a93]">M{m+1}</span>
+     {Array.from({length:4},(_,w)=>{const i=m*4+w;return i<tot?<input key={w} aria-label={e.name+" mesociclo "+(m+1)+" semana "+(w+1)} inputMode="decimal" placeholder={"S"+(w+1)} value={(dr[e.id]||[])[i]||""} onChange={ev=>ch(e.id,i,ev.target.value)} className={"!w-0 flex-1 min-w-0 !px-1.5 !py-1.5 text-center text-sm !rounded-lg"+(i===cw-1?" !border-[#8E0000]/60":i>=cw?" opacity-60":"")}/>:<span key={w} className="flex-1"/>})}</div>)}</div>)}</div>
+  <p className="text-[11px] text-[#71717A] mt-3">S1 a S4 = semanas do mesociclo. A borda vermelha é a semana atual; as semanas seguintes (mais claras) ficam guardadas e entram quando chegarem.</p>
   <div className="flex gap-2 mt-4"><Btn ghost className="flex-1" onClick={onClose}>Cancelar</Btn><Btn className="flex-1" onClick={salvar}><Ic n="Save" s={15}/>Salvar cargas</Btn></div></Modal>}
 function Trainer({db,set,tab,toast,setTab}){
  const [sel0,setSel]=useState(1);const [nxS,setNxS]=useState(null);const [dayS,setDay]=useState("");const sel=db.students.some(s=>s.id===sel0)?sel0:(db.students[0]||{}).id;
@@ -1354,7 +1354,7 @@ function App(){
  const pad=dbe.students.filter(s=>db.w[s.id]&&Object.values(db.w[s.id]).some(v=>v.some(e=>e.hist.length<cwm[s.id]))).map(s=>s.id).join(",");
  useEffect(()=>{if(!due&&!pad)return;set(d=>{let a=d;due.split(",").filter(Boolean).forEach(i=>{a=applyNext(a,+i,cwm[i])});
   const ids=[...new Set([...due.split(","),...pad.split(",")].filter(Boolean).map(Number))];
-  return {...a,w:{...a.w,...Object.fromEntries(ids.filter(i=>a.w[i]).map(i=>[i,Object.fromEntries(Object.entries(a.w[i]).map(([k,v])=>[k,v.map(e=>e.hist.length<cwm[i]?{...e,hist:[...e.hist,...Array.from({length:cwm[i]-e.hist.length},()=>null)]}:e)]))]))}}})},[due,pad]);
+  return {...a,w:{...a.w,...Object.fromEntries(ids.filter(i=>a.w[i]).map(i=>[i,Object.fromEntries(Object.entries(a.w[i]).map(([k,v])=>[k,v.map(e=>e.hist.length<cwm[i]?{...e,hist:[...e.hist,...Array.from({length:cwm[i]-e.hist.length},(_,j)=>{const v=(e.pre||{})[e.hist.length+j];return v==null?null:v})]}:e)]))]))}}})},[due,pad]);
  const go=r=>{setRole(r);setTab(r==="t"?"dash":"home")};
  const sup=useSupa(db,set,a=>login(a),()=>{setAuth(null);setMOpen(false);setNA(false);setRole("t");setTab("dash");set(joinDb([],null))},toast);
  const login=a=>{setAuth(a);setMOpen(false);if(a.role==="a"){setSid(a.sid);setRole("a");setTab("home")}else{setRole("t");setTab("dash")}};
